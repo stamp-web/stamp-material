@@ -237,4 +237,6 @@
         };
         return this;
     };
+
+
 })(_, angular, log4javascript);

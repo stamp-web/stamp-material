@@ -11,6 +11,9 @@
     "angular-loader": "1.3.x",
     "underscore": "latest",
     "angular-mocks": "~1.3.x",
-    "html5-boilerplate": "~4.3.0"
+    "html5-boilerplate": "~4.3.0",
+    "polymer": "Polymer/polymer#~0.5.2",
+    "ng-scrolling-table": "git://github.com/jadrake75/ng-scrolling-table.git",
+    "angular-material": "master"
   }
 }

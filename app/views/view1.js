@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute','core.services'])
+angular.module('myApp.view1', ['ngRoute','stampweb.services'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/views', {
@@ -9,7 +9,10 @@ angular.module('myApp.view1', ['ngRoute','core.services'])
   });
 }])
 
-.controller('View1Ctrl', function($scope,LocationServices) {
+.controller('View1Ctrl', function($scope,LocationServices, Preferences) {
       console.log(LocationServices);
+      Preferences.query().then(function(data) {
+        console.log(data);
+      })
   $scope.location = LocationServices.getWebAppPath();
 });

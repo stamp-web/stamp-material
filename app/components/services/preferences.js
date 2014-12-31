@@ -1,6 +1,6 @@
 (function (angular) {
 
-    var services = angular.module('stampweb.preferences.services', ['core.services', 'restangular']);
+    var services = angular.module('stampweb.services.preferences', ['core.services', 'restangular']);
     var core = angular.module('core.services');
 
     services.factory('Preferences', function ($rootScope, $q, Restangular, $timeout) {
