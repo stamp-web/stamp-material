@@ -1,18 +1,20 @@
 module.exports = function (grunt) {
 
     var targetdir = grunt.option('distdir') || 'dist';
+    console.log("target directory is: " + targetdir);
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         distdir: targetdir,
 
         copy: {
-
             deploy: {
                 files: [
                     {
-                        src: ['app/**'],
+                        cwd: 'app/',
+                        src: ['**'],
                         dest: '<%= distdir %>',
-                        expand: true
+                        expand: true,
+                        verbose: true
                     }
                 ]
             }
@@ -46,6 +48,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('dev', ['clean:working','copy:deploy' ] );
+
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');

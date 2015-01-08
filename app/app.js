@@ -1,19 +1,29 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+angular.module('stamp-web', [
     'ngRoute',
     'restangular',
     'stampweb.services',
+    'components.utilities',
     'ng-scrolling-table',
-    'myApp.view1',
-    'myApp.view2',
+    'views.home',
+    'views.search',
+    'views.stamps',
+    'views.application',
+    'ngMaterial',
     'myApp.version'
 ]).
-    config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.otherwise({redirectTo: '/views'});
-    }]).
-    config(function (RestangularProvider) {
+    config(function($locationProvider, $routeProvider) {
+        $locationProvider.html5Mode(false);
+        $locationProvider.hashPrefix("!");
+        $routeProvider.otherwise({redirectTo: '/home'});
+    }).
+    config(function($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+    }).
+
+        config(function (RestangularProvider) {
         RestangularProvider.setDefaultHttpFields({
             //    cache: true
         });
@@ -52,6 +62,5 @@ angular.module('myApp', [
     }).
 run(function (Restangular, LocationServices) {
     var webapp = LocationServices.getWebAppPath();
-    //logger.info("Configuring Restangular to use a base url of " + webapp);
     Restangular.setBaseUrl('/' + webapp + '/rest');
 });

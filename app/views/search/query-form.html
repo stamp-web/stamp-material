@@ -1,0 +1,16 @@
+<div layout="column">
+
+    <select
+        ng-model="selectedCountry"
+        ng-mouseover="deferLoad('countries')"
+        ng-options="value.name for value in countries track by value.id">
+        <option>--</option>
+    </select>
+
+    <div layout="row">
+        <button ng-click="search()">Search</button>
+        <button ng-click="reset()">Reset</button>
+    </div>
+
+
+</div>

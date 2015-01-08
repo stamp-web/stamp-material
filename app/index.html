@@ -1,85 +1,72 @@
 <!DOCTYPE html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
-  <link rel="stylesheet" href="lib/ng-scrolling-table/ng-scrolling-table.css">
-  <link rel="stylesheet" href="app.css">
-  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" href="lib/ng-scrolling-table/ng-scrolling-table.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 </head>
 <body>
 
 <div layout="column" layout-fill>
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <span>Stamp-Web</span>
-      <span flex></span>
+    <ng-include src="'views/application/header.html'"></ng-include>
+    <md-content layout-fill>
+        <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a
+                href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
 
-    </div>
-  </md-toolbar>
-  <md-content layout-fill>
-    <!--[if lt IE 7]>
-    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+        <div ng-view class="my-slide-animation"></div>
 
-    <div ng-view></div>
-
-  </md-content>
-  <md-bottom-sheet>
-    <div>Angular seed app: v<span app-version></span></div>
-  </md-bottom-sheet>
+    </md-content>
+    <md-bottom-sheet>
+        <div>Angular seed app: v<span app-version></span></div>
+    </md-bottom-sheet>
 </div>
 
+<script src="bower_components/jquery/jquery.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/hammerjs/hammer.min.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="bower_components/log4javascript/log4javascript.js"></script>
+<script src="bower_components/restangular/dist/restangular.js"></script>
+<script src="lib/ng-scrolling-table/ng-scrolling-table.js"></script>
+<script src="components/global-overrides.js"></script>
+
+<script src="components/utilities/search-criteria-listener.js"></script>
+<script src="components/utilities/index.js"></script>
+<script src="components/services/core-services.js"></script>
+<script src="components/services/countries.js"></script>
+<script src="components/services/preferences.js"></script>
+<script src="components/services/stamps.js"></script>
+<script src="components/services/index.js"></script>
+<script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script>
+
+<script src="views/application/controllers.js"></script>
+<script src="views/home/home.js"></script>
+<script src="views/search/search.js"></script>
+<script src="views/stamps/stamps.js"></script>
+<script src="app.js"></script>
 
 
-
-
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
 <script>
-  var importsLoaded = 0;
-  function completed(event) {
-    importsLoaded++;
-  }
-</script>
-  <script src="bower_components/jquery/jquery.min.js"></script>
-  <script src="bower_components/underscore/underscore-min.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-material/angular-material.js"></script>
-  <script src="bower_components/log4javascript/log4javascript.js"></script>
-  <script src="bower_components/restangular/dist/restangular.js"></script>
-  <script src="lib/ng-scrolling-table/ng-scrolling-table.js"></script>
-  <script src="components/global-overrides.js"></script>
-
-  <link rel="import" href="components/services/index.html" onload="completed(event)">
-
-  <script src="views/view1.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="app.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
-
-<script>
-  angular.element(document).ready(function() {
-    var checkAndBootStrap = function() {
-      if( importsLoaded === 1 ) {
-        clearInterval(interval);
-        angular.bootstrap(document, ['myApp']);
-      }
-    }
-    var interval = setInterval(checkAndBootStrap, 50 /* flow in with html imports */);
-
-  });
+    angular.element(document).ready(function () {
+        angular.bootstrap(document, ['stamp-web']);
+    });
 </script>
 </body>
 </html>

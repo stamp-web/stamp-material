@@ -1,30 +1,111 @@
-/* app css stylesheet */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+.my-slide-container {
+    position:relative;
 }
 
-.menu:before {
-  content: "[";
+.my-slide-animation.ng-enter, .my-slide-animation.ng-leave {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:600px;
 }
 
-.menu:after {
-  content: "]";
+.my-slide-animation.ng-enter {
+    -webkit-animation: 0.5s slide-animation-enter;
+    animation: 0.5s slide-animation-enter;
 }
 
-.menu > li {
-  display: inline;
+.my-slide-animation.ng-leave {
+    -webkit-animation-name: flipOutX;
+    animation-name: flipOutX;
+    -webkit-animation-duration: .75s;
+    animation-duration: .75s;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+
+    /*-webkit-animation: 0.5s slide-animation-leave;
+    animation: 0.5s slide-animation-leave;*/
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+@keyframes slide-animation-enter {
+    from {
+        z-index:100;
+        top:600px;
+        opacity:0;
+    }
+    to {
+        top:0;
+        opacity:1;
+    }
 }
 
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+@keyframes slide-animation-leave {
+    /*from {
+        z-index:101;
+        top:0;
+        opacity:1;
+    }
+    to {
+        top:-600px;
+        opacity:0;
+    }*/
+    0% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+    }
+
+    30% {
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+        transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        opacity: 0;
+    }
 }
+
+@-webkit-keyframes slide-animation-enter {
+    from {
+        z-index:100;
+        top:600px;
+        opacity:0;
+    }
+    to {
+        top:0;
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes slide-animation-leave {
+    0% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+    }
+
+    30% {
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+        transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        opacity: 0;
+    }
+
+    /*from {
+        z-index:101;
+        top:0;
+        opacity:1;
+    }
+    to {
+        top:-600px;
+        opacity:0;
+    }*/
+}
+

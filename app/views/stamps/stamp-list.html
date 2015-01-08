@@ -1,0 +1,17 @@
+<div>
+    <search-criteria-listener trigger-event="search-stamps"></search-criteria-listener>
+    <table data-table-scrolling-table data-table-empty-message="No stamps found." data-table-selector >
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in stamps track by row.id">
+                <td></td>
+                <td>{{row.rate}} - {{row.description}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

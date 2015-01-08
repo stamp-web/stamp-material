@@ -703,8 +703,8 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
         }
 
         /**
-         * Configures the column groups for both the table header and table body
-         * tables.  If a column group is present on the header it will be used.
+         * Configures the column groups for both the table application and table body
+         * tables.  If a column group is present on the application it will be used.
          * However, if one is generated it will set the widths of any existing 
          * width attributes on the TH elements on the COL elements and remove the 
          * explicit widths from any TH and/or TD cells.
