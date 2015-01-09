@@ -27,15 +27,13 @@
 }
 
 .my-slide-animation.ng-enter {
-    -webkit-animation: 0.5s slide-animation-enter;
-    animation: 0.5s slide-animation-enter;
+    -webkit-animation: .75s slide-animation-enter;
+    animation: .75s slide-animation-enter;
 }
 
 .my-slide-animation.ng-leave {
-    -webkit-animation-name: flipOutX;
-    animation-name: flipOutX;
-    -webkit-animation-duration: .75s;
-    animation-duration: .75s;
+    -webkit-animation: .5s slide-animation-leave;
+    animation: .5s slide-animation-leave;
     -webkit-backface-visibility: visible !important;
     backface-visibility: visible !important;
 
