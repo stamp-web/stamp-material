@@ -18,18 +18,16 @@
 
 <div layout="column" layout-fill>
     <ng-include src="'views/application/header.html'"></ng-include>
-    <md-content layout-fill>
-        <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a
-                href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-        <div ng-view class="my-slide-animation"></div>
-
+    <md-content class="content-panel">
+        <div layout-fill ng-view class="my-slide-animation"></div>
     </md-content>
-    <md-bottom-sheet>
+   <!-- <md-bottom-sheet>
         <div>Angular seed app: v<span app-version></span></div>
     </md-bottom-sheet>
+    -->
+    <div class="footer">
+        <div>Angular seed app: v<span app-version></span></div>
+    </div>
 </div>
 
 <script src="bower_components/jquery/jquery.min.js"></script>
