@@ -74,52 +74,47 @@ md-switch:focus .md-label:not(:empty) {
     position:relative;
 }
 
-.my-slide-animation.ng-enter, .my-slide-animation.ng-leave {
+.my-slide-animation.ng-enter  {
+    z-index: 10;
+    -webkit-animation: .75s none;
+    animation: .75s none;
+}
+.my-slide-animation.ng-leave  {
+    -webkit-animation: .3s none;
+    animation: .3s none;
+}
+.my-slide-animation.ng-enter ,
+.my-slide-animation.ng-leave {
+	overflow: hidden;
+    position: absolute;
+}
+
+.my-slide-animation.ng-enter  > *,
+.my-slide-animation.ng-leave  > * {
+    transition: top .6s ease, opacity .2s linear;
+   -webkit-transition: top .6s ease, opacity .2s linear;
     position:absolute;
     top:0;
     left:0;
     right:0;
-	overflow: hidden;
 }
 
-
-.my-slide-animation.ng-enter ,
-.my-slide-animation.ng-leave {
-    -webkit-animation: .75s none;
-    animation: .75s none;
+.my-slide-animation.ng-enter > *,
+.my-slide-animation.ng-leave.ng-leave-active  > * {
+    opacity: 0;
+}
+.my-slide-animation.ng-leave > *,
+.my-slide-animation.ng-enter.ng-enter-active > * {
+    opacity: 1;
 }
 
-.my-slide-animation.ng-enter > .stampList,
-.my-slide-animation.ng-leave > .stampList {
-    transition: opacity .75s;
-	z-index: 0;
+.my-slide-animation.ng-enter:last-child > *,
+.my-slide-animation.ng-leave.ng-leave-active:last-child > * {
+    top: -100%;
+    opacity: 0;
 }
-.my-slide-animation.ng-enter > .search,
-.my-slide-animation.ng-leave > .search {
-    transition: top .75s;
-	position: absolute;
-	right: 0;
-	left: 0;
-	z-index: 10;
-}
-
-.my-slide-animation.ng-enter > .stampList,
-.my-slide-animation.ng-leave.ng-leave-active > .stampList {
-	opacity: 0;
-}
-.my-slide-animation.ng-leave > .stampList,
-.my-slide-animation.ng-enter.ng-enter-active > .stampList {
-	opacity: 1;
-}
-
-.my-slide-animation.ng-enter > .search,
-.my-slide-animation.ng-leave.ng-leave-active > .search {
-	top: -100%;
-}
-.my-slide-animation.ng-leave > .search,
-.my-slide-animation.ng-enter.ng-enter-active > .search {
-	top: 0;
-}
-.search > * {
- background-color: white;
+.my-slide-animation.ng-leave:last-child > *,
+.my-slide-animation.ng-enter.ng-enter-active:last-child > * {
+    top: 0;
+    opacity: 1;
 }
