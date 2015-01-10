@@ -79,102 +79,47 @@ md-switch:focus .md-label:not(:empty) {
     top:0;
     left:0;
     right:0;
-    height:600px;
+	overflow: hidden;
 }
 
-.my-slide-animation.ng-enter {
-    -webkit-animation: .75s slide-animation-enter;
-    animation: .75s slide-animation-enter;
-}
 
+.my-slide-animation.ng-enter ,
 .my-slide-animation.ng-leave {
-    -webkit-animation: .5s slide-animation-leave;
-    animation: .5s slide-animation-leave;
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-
-    /*-webkit-animation: 0.5s slide-animation-leave;
-    animation: 0.5s slide-animation-leave;*/
+    -webkit-animation: .75s none;
+    animation: .75s none;
 }
 
-@keyframes slide-animation-enter {
-    from {
-        z-index:100;
-        top:600px;
-        opacity:0;
-    }
-    to {
-        top:0;
-        opacity:1;
-    }
+.my-slide-animation.ng-enter > .stampList,
+.my-slide-animation.ng-leave > .stampList {
+    transition: opacity .75s;
+	z-index: 0;
+}
+.my-slide-animation.ng-enter > .search,
+.my-slide-animation.ng-leave > .search {
+    transition: top .75s;
+	position: absolute;
+	right: 0;
+	left: 0;
+	z-index: 10;
 }
 
-@keyframes slide-animation-leave {
-    /*from {
-        z-index:101;
-        top:0;
-        opacity:1;
-    }
-    to {
-        top:-600px;
-        opacity:0;
-    }*/
-    0% {
-        -webkit-transform: perspective(400px);
-        transform: perspective(400px);
-    }
-
-    30% {
-        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-        transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-        opacity: 1;
-    }
-
-    100% {
-        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-        opacity: 0;
-    }
+.my-slide-animation.ng-enter > .stampList,
+.my-slide-animation.ng-leave.ng-leave-active > .stampList {
+	opacity: 0;
+}
+.my-slide-animation.ng-leave > .stampList,
+.my-slide-animation.ng-enter.ng-enter-active > .stampList {
+	opacity: 1;
 }
 
-@-webkit-keyframes slide-animation-enter {
-    from {
-        z-index:100;
-        top:600px;
-        opacity:0;
-    }
-    to {
-        top:0;
-        opacity:1;
-    }
+.my-slide-animation.ng-enter > .search,
+.my-slide-animation.ng-leave.ng-leave-active > .search {
+	top: -100%;
 }
-
-@-webkit-keyframes slide-animation-leave {
-    0% {
-        -webkit-transform: perspective(400px);
-        transform: perspective(400px);
-    }
-
-    30% {
-        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-        transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-        opacity: 1;
-    }
-
-    100% {
-        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-        opacity: 0;
-    }
-
-    /*from {
-        z-index:101;
-        top:0;
-        opacity:1;
-    }
-    to {
-        top:-600px;
-        opacity:0;
-    }*/
+.my-slide-animation.ng-leave > .search,
+.my-slide-animation.ng-enter.ng-enter-active > .search {
+	top: 0;
 }
-
+.search > * {
+ background-color: white;
+}
