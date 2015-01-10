@@ -4,6 +4,7 @@
 angular.module('stamp-web', [
     'ngRoute',
     'restangular',
+    'LocalStorageModule',
     'stampweb.services',
     'components.utilities',
     'ng-scrolling-table',
@@ -18,6 +19,9 @@ angular.module('stamp-web', [
         $locationProvider.html5Mode(false);
         $locationProvider.hashPrefix("!");
         $routeProvider.otherwise({redirectTo: '/home'});
+    }).
+    config(function (localStorageServiceProvider) {
+        localStorageServiceProvider.setPrefix('stamp-web-material');
     }).
     config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')

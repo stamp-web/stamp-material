@@ -16,6 +16,7 @@
     "html5-boilerplate": "~4.3.0",
     "polymer": "Polymer/polymer#~0.5.2",
     "ng-scrolling-table": "git://github.com/jadrake75/ng-scrolling-table.git",
-    "angular-material": "master"
+    "angular-material": "master",
+    "angular-local-storage": "~0.1.5"
   }
 }

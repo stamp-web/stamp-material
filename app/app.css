@@ -10,9 +10,65 @@
     position: absolute;
     left: 0px;
     top: 64px;
+    width: 100%;
     height: calc(100% - 96px);
 }
 
+.action-bar {
+    padding: 5px;
+}
+
+.action-bar * {
+    margin-right: 10px;
+}
+
+.query-form {
+    margin: 10px;
+    padding: 20px;
+}
+
+.stamp-list {
+    max-height: 500px;
+}
+
+md-switch .md-label {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+md-switch:focus .md-label:not(:empty) {
+    border-style:none !important;
+}
+
+/*
+.query-form {
+    display: table;
+}
+
+.form-field {
+    display: table-row;
+    padding-bottom: 5px;
+}
+
+.form-field * {
+    display: table-cell;
+}
+*/
+
+.form-field {
+    padding-bottom: 5px;
+}
+.form-field label {
+    padding-right: 5px;
+    min-width: 125px;
+}
+
+.form-field select {
+    max-width: 350px;
+}
+.form-field label:after {
+    content: ":";
+}
 
 .my-slide-container {
     position:relative;

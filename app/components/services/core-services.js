@@ -28,7 +28,11 @@
                         path = path.substring(0, path.indexOf('?'));
                     }
                     if( cacheMap.webappPath === null ) {
-                        var baseHref = $location.protocol() + '//' + $location.host();
+                        cacheMap.webappPath = "stamp-webservices";
+                        /* since we are not deploying into node-js servers under a different path name,
+                           we should just default to stamp-webservices
+                           */
+                        /*var baseHref = $location.protocol() + '//' + $location.host();
                         if ($location.port() !== 80 && ($location.protocol() !== 'https' && $location.port() !== 443)) {
                             baseHref += ':' + $location.port() + '/';
                         }
@@ -38,7 +42,7 @@
                         } else if (path.indexOf('/') === 0) {
                             path = path.substring(1);
                         }
-                        cacheMap.webappPath = path;
+                        cacheMap.webappPath = path;*/
                     }
                 }
             }

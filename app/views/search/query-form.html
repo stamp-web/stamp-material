@@ -1,15 +1,43 @@
-<div layout="column">
+<div layout="column" layout-align="center center">
 
-    <select
-        ng-model="selectedCountry"
-        ng-mouseover="deferLoad('countries')"
-        ng-options="value.name for value in countries track by value.id">
-        <option>--</option>
-    </select>
+    <div class="query-form md-whiteframe-z1" layout="column" layout-align="center center">
+        <md-subheader class="md-primary">Search Criteria</md-subheader>
+        <div class="form-field">
+            <label>Country</label>
+            <select
+                    ng-model="selected.countryRef"
+                    ng-options="value.name for value in countries track by value.id">
+                <option>--</option>
+            </select>
+        </div>
+        <div class="form-field">
+            <label>Album</label>
+            <select
+                    ng-model="selected.albumRef"
+                    ng-options="value.name for value in albums track by value.id">
+                <option value="-1">--</option>
+            </select>
+        </div>
+        <div class="form-field">
 
-    <div layout="row">
-        <button ng-click="search()">Search</button>
-        <button ng-click="reset()">Reset</button>
+                <md-switch ng-model="selected.wantList" ng-true-value="undefined" aria-label="Search for only all stamps">
+                    All stamps
+                </md-switch>
+                <md-switch ng-model="selected.wantList" ng-true-value="false" aria-label="Search for only owned stamps">
+                    Only owned stamps
+                </md-switch>
+                <md-switch ng-model="selected.wantList" ng-true-value="true" aria-label="Search for only wantlist">
+                    Only wantlist stamps
+                </md-switch>
+
+        </div>
+
+    </div>
+
+
+    <div layout="row" class="action-bar">
+        <md-button ng-click="search()" ng-disabled="searchInvalid" class="md-raised md-primary">Search</md-button>
+        <md-button ng-click="reset()" class="md-raised">Reset</md-button>
     </div>
 
 
