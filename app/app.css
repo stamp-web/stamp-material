@@ -66,21 +66,6 @@ md-switch:focus .md-label:not(:empty) {
     border-style:none !important;
 }
 
-/*
-.query-form {
-    display: table;
-}
-
-.form-field {
-    display: table-row;
-    padding-bottom: 5px;
-}
-
-.form-field * {
-    display: table-cell;
-}
-*/
-
 .form-field {
     padding-bottom: 5px;
 }
@@ -99,86 +84,47 @@ md-switch:focus .md-label:not(:empty) {
 .my-slide-container {
     position:relative;
 }
-/*
-.my-slide-​animation.​ng-enter ,
-.my-slide-​animation.​ng-leave {
-    -webkit-an​imation: .75s none;
-    animation: .75s none;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    overflow: hidden;
-}
-
-.my-slide-​animation.​ng-enter:first-child​,
-.my-slide-​animation.​ng-leave:f​irst-child​,
-.my-slide-​animation.​ng-enter:l​ast-child,
-.my-slide-​animation.​ng-leave:l​ast-child {
-    transition​: top .75s;
-    position: absolute;
-    right: 0;
-    left: 0;
+.my-slide-animation.ng-enter  {
     z-index: 10;
-}
-
-.my-slide-​animation.​ng-enter:l​ast-child,
-.my-slide-​animation.​ng-leave.n​g-leave-ac​tive:last-​child {
-    top: -100%;
-    opacity: 0;
-}
-.my-slide-​animation.​ng-leave:l​ast-child,
-.my-slide-​animation.​ng-enter.n​g-enter-ac​tive:last-​child {
-    opacity: 1;
-    top: 0;
-}
-
-.my-slide-​animation.​ng-enter:f​irst-child​,
-.my-slide-​animation.​ng-leave.n​g-leave-ac​tive:first​-child {
-    top: -100%;
-    opacity: 0;
-}
-.my-slide-​animation.​ng-leave:f​irst-child​,
-.my-slide-​animation.​ng-enter.n​g-enter-ac​tive:first​-child {
-    top: 0;
-    opacity: 1;
-}
-*/
-
-.my-slide-animation.ng-enter, .my-slide-animation.ng-leave {
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-	overflow: hidden;
-}
-
-.my-slide-animation.ng-enter ,
-.my-slide-animation.ng-leave {
     -webkit-animation: .75s none;
     animation: .75s none;
 }
-
-.my-slide-animation.ng-enter > .main-content,
-.my-slide-animation.ng-leave > .main-content {
-    transition: top .75s;
-	position: absolute;
-	right: 0;
-	left: 0;
-	z-index: 10;
+.my-slide-animation.ng-leave  {
+    -webkit-animation: .3s none;
+    animation: .3s none;
+}
+.my-slide-animation.ng-enter ,
+.my-slide-animation.ng-leave {
+    overflow: hidden;
+    position: absolute;
 }
 
-.my-slide-animation.ng-enter > .main-content,
-.my-slide-animation.ng-leave.ng-leave-active > .main-content{
+.my-slide-animation.ng-enter  > *,
+.my-slide-animation.ng-leave  > * {
+    transition: top .6s ease, opacity .2s linear;
+    -webkit-transition: top .6s ease, opacity .2s linear;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+}
+
+.my-slide-animation.ng-enter > *,
+.my-slide-animation.ng-leave.ng-leave-active  > * {
+    opacity: 0;
+}
+.my-slide-animation.ng-leave > *,
+.my-slide-animation.ng-enter.ng-enter-active > * {
+    opacity: 1;
+}
+
+.my-slide-animation.ng-enter:last-child > *,
+.my-slide-animation.ng-leave.ng-leave-active:last-child > * {
     top: -100%;
     opacity: 0;
 }
-.my-slide-animation.ng-leave > .main-content,
-.my-slide-animation.ng-enter.ng-enter-active > .main-content {
-	opacity: 1;
+.my-slide-animation.ng-leave:last-child > *,
+.my-slide-animation.ng-enter.ng-enter-active:last-child > * {
     top: 0;
-}
-
-.search > * {
- background-color: white;
+    opacity: 1;
 }
