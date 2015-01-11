@@ -70,6 +70,10 @@
             }
         }
 
+        ctx.setDevMode = function(mode) {
+            devMode = mode;
+        }
+
         /**
          * Return a parameters object only containing the parameters which are monitored
          * for equality.  These include:

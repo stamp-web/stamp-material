@@ -7,7 +7,7 @@
             <select
                     ng-model="selected.countryRef"
                     ng-options="value.name for value in countries track by value.id">
-                <option>--</option>
+                <option value="">-- select country --</option>
             </select>
         </div>
         <div class="form-field">
@@ -15,7 +15,7 @@
             <select
                     ng-model="selected.albumRef"
                     ng-options="value.name for value in albums track by value.id">
-                <option value="-1">--</option>
+                <option value="">-- select album --</option>
             </select>
         </div>
         <div class="form-field">

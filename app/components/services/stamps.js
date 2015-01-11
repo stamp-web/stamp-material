@@ -37,6 +37,8 @@
             $location: $location,
             $http: $http
         });
+        this.setDevMode(false);
+
         this.TOTAL_REQUESTS = 4; // total number of concurrent requests allowed
 
         this.executeReport = function (params) {

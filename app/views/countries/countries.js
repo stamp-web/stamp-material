@@ -14,7 +14,7 @@
         $scope.countries = [];
 
         $scope.refresh = function() {
-            Countries.query().then(function(results) {
+            Countries.query({ $orderby: 'name'}).then(function(results) {
                 $scope.countries = results;
             }, function(error) {
                 console.log(error);
