@@ -47,7 +47,9 @@
         }
 
         var load = function(Svc, collection) {
-            Svc.query().then(function(data) {
+            Svc.query({
+                $orderby: 'name'
+            }).then(function(data) {
                 $scope[collection] = data;
                 $scope.$emit("querysearch-loadCount", ++loadCount);
             });

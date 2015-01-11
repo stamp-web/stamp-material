@@ -27,14 +27,18 @@
         });
     });
 
-    services.factory('Stamps', function ($rootScope, $q, $window, StampsRestangular, $timeout) {
+    services.factory('Stamps', function ($rootScope, $q, $window, StampsRestangular, $timeout, $location, $http) {
         this.parent = angular.injector().invoke(core.AbstractService, this, {
             $rootScope: $rootScope,
             ctx: this,
             $q: $q,
             Restangular: StampsRestangular,
-            $timeout: $timeout
+            $timeout: $timeout,
+            $location: $location,
+            $http: $http
         });
+        this.setDevMode(false);
+
         this.TOTAL_REQUESTS = 4; // total number of concurrent requests allowed
 
         this.executeReport = function (params) {

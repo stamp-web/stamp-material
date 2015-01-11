@@ -1,0 +1,17 @@
+<div layout="column" layout-align="center center" class="main-content">
+
+    <table table-scrolling-table table-empty-message="No countries found." table-selector >
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in countries track by row.id">
+            <td>{{row.name}}</td>
+            <td>{{row.description}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,25 @@
+
+
+SCREENS
+-------
+
+Search
+StampList
+Preferences
+CountryList
+AlbumList
+CatalogueList
+Collection Management
+Import XML
+Catalogue Replacement
+Create/Edit Stamp
+Create/Edit Album
+Create/Edit Country
+Create/Edit Stamp Collection
+Create/Edit Catalogue
+
+
+UX Flow
+-------
+
+Menu driving content

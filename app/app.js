@@ -11,6 +11,7 @@ angular.module('stamp-web', [
     'views.home',
     'views.search',
     'views.stamps',
+    'views.countries',
     'views.application',
     'ngMaterial',
     'myApp.version'
