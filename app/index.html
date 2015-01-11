@@ -18,9 +18,12 @@
 
 <div layout="column" layout-fill>
     <ng-include src="'views/application/header.html'"></ng-include>
-    <md-content class="content-panel">
-        <div layout-fill ng-view class="my-slide-animation"></div>
-    </md-content>
+    <section layout="row" flex>
+        <ng-include src="'views/application/nav-menu.html'"></ng-include>
+        <md-content class="content-panel">
+            <div layout-fill ng-view class="my-slide-animation"></div>
+        </md-content>
+    </section>
     <ng-include src="'views/application/footer.html'"></ng-include>
 </div>
 
@@ -55,8 +58,8 @@
 <script src="views/home/home.js"></script>
 <script src="views/search/search.js"></script>
 <script src="views/stamps/stamps.js"></script>
+<script src="views/countries/countries.js"></script>
 <script src="app.js"></script>
-
 
 <script>
     angular.element(document).ready(function () {

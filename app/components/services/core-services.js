@@ -51,7 +51,9 @@
         return this;
     });
 
-    services.AbstractService = function ($rootScope, ctx, $q, Restangular, $timeout) {
+    services.AbstractService = function ($rootScope, ctx, $q, Restangular, $timeout, $location, $http) {
+
+        var devMode = false;
 
         ctx.values = [];
         ctx.total = 0;
@@ -60,6 +62,14 @@
             id: -1,
             value: undefined
         };
+
+        if( $location ) {
+            var path = $location.search();
+            if( path.devMode && path.devMode === 'true' ) {
+                devMode = true;
+            }
+        }
+
         /**
          * Return a parameters object only containing the parameters which are monitored
          * for equality.  These include:
@@ -113,38 +123,59 @@
         };
         ctx.query = function (params) {
             var deferred, that = ctx;
-            if (ctx.useCachedResult(params, that)) {
-                logger.debug("using the cached result for " + ctx.getResourceName());
-                deferred = $q.defer();
-                deferred.resolve(that.values);
-                return deferred.promise;
-            }
             var _t = (new Date()).getTime();
-            $rootScope.$emit('event: status', {
-                msg: 'Loading {0}...'.format(ctx.getResourceName()),
-                type: ctx.getResourceName(),
-                loading: true
-            });
-            return Restangular.all(ctx.getResourceName()).getList(params).then(function (results) {
-                that.total = results.total;
-                that.values = (results.length >= 1) ? results : [];
-                that.params = angular.copy(params);
-                ctx.lastCacheHit.id = -1;
+            if( $http && devMode === true ) {
+                deferred = $q.defer();
+                $http.get('resources/data/' + ctx.getResourceName() + '.json').
+                    success(function (data, status, headers, config) {
+                        that.total = data.total;
+                        that.values = data[ctx.getResourceName()];
+                        $rootScope.$emit('event: status', {
+                            msg: 'Loading complete ({0} items, {1}ms)'.format(that.values.length, ((new Date()).getTime() - _t)),
+                            type: ctx.getResourceName(),
+                            loading: false
+                        });
+                        deferred.resolve(that.values);
+                    }).
+                    error(function (data, status, headers, config) {
+                        console.log(data);
+                    });
+                return deferred.promise;
+            } else {
+                if (ctx.useCachedResult(params, that)) {
+                    logger.debug("using the cached result for " + ctx.getResourceName());
+                    deferred = $q.defer();
+                    deferred.resolve(that.values);
+                    return deferred.promise;
+                }
+
                 $rootScope.$emit('event: status', {
-                    msg: 'Loading complete ({0} items, {1}ms)'.format(that.values.length, ((new Date()).getTime() - _t)),
+                    msg: 'Loading {0}...'.format(ctx.getResourceName()),
                     type: ctx.getResourceName(),
-                    loading: false
+                    loading: true
                 });
-                return that.values;
-            }, function (error) {
-                $rootScope.$emit('event: status', {
-                    msg: 'Error retrieving ' + ctx.getResourceName(),
-                    type: ctx.getResourceName(),
-                    status: error.status,
-                    error: true,
-                    loading: false
+                return Restangular.all(ctx.getResourceName()).getList(params).then(function (results) {
+                    that.total = results.total;
+                    that.values = (results.length >= 1) ? results : [];
+                    that.params = angular.copy(params);
+                    ctx.lastCacheHit.id = -1;
+                    $rootScope.$emit('event: status', {
+                        msg: 'Loading complete ({0} items, {1}ms)'.format(that.values.length, ((new Date()).getTime() - _t)),
+                        type: ctx.getResourceName(),
+                        loading: false
+                    });
+                    return that.values;
+                }, function (error) {
+                    $rootScope.$emit('event: status', {
+                        msg: 'Error retrieving ' + ctx.getResourceName(),
+                        type: ctx.getResourceName(),
+                        status: error.status,
+                        error: true,
+                        loading: false
+                    });
                 });
-            });
+            }
+
         };
         ctx.getLastParameters = function () {
             return ctx.params;
