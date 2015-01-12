@@ -1,23 +1,23 @@
 <div layout="column" layout-align="center center" class="main-content">
 
-    <div class="query-form md-whiteframe-z1" layout="column" layout-align="center center">
+    <div class="query-form md-whiteframe-z1" layout="column" layout-align="left center">
         <md-subheader class="md-primary">Search Criteria</md-subheader>
-        <div class="form-field">
-            <label>Country</label>
+        <md-input-container class="form-field" flex>
             <select
+                    class="md-input"
                     ng-model="selected.countryRef"
                     ng-options="value.name for value in countries track by value.id">
                 <option value="">-- select country --</option>
             </select>
-        </div>
-        <div class="form-field">
-            <label>Album</label>
+        </md-input-container>
+        <md-input-container class="form-field" flex>
             <select
+                    class="md-input"
                     ng-model="selected.albumRef"
                     ng-options="value.name for value in albums track by value.id">
                 <option value="">-- select album --</option>
             </select>
-        </div>
+        </md-input-container>
         <div class="form-field">
 
                 <md-switch ng-model="selected.wantList" ng-true-value="undefined" aria-label="Search for only all stamps">

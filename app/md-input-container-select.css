@@ -1,0 +1,39 @@
+/*
+CSS styling for <input>
+https://github.com/angular/material/issues/276
+
+JS:
+
+  $scope.select = "foo";
+  $scope.list = ["foo", "bar"];
+
+Front:
+
+  <md-input-container flex>
+      <select class="md-input" ng-model="select" ng-options="value for value in list"></select>
+  </md-input-container>
+*/
+
+md-input-container select.md-input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAD1BMVEUAAAB6enp6enp5eXn///+i9s37AAAAA3RSTlMAgIgilleHAAAAIklEQVR4AWOgG2BihgImmAgjhM+IUMOI4CNEGNHMYaKlKwEp5wBLyMAwGAAAAABJRU5ErkJggg==) 99% center no-repeat;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 1px;
+}
+
+md-input-container select.md-input:focus {
+    border-bottom: 2px solid rgb(33, 150, 243) !important;
+    margin-bottom: 0;
+}
+
+md-input-container select.md-input:focus::-ms-value {
+    background: transparent;
+    color: inherit;
+}
+
+md-input-container select.md-input::-ms-expand {
+    display: none;
+}
