@@ -102,7 +102,6 @@ var MouseClickObserver = function($, angular, window) {
     'use strict';
     angular.module('ng-scrolling-table.mixins', [])
             
-            // TODO: This will be moved to controllers for the directives
             .factory('stgControllerMixins', function() {
                 $.extend(true, this, {
                     filterable: function() {
@@ -187,6 +186,302 @@ var MouseClickObserver = function($, angular, window) {
         };
     });
 })(angular, jQuery);
+//End of file
+(function(angular) {
+    "use strict";
+
+    var module = angular.module('table.column-reorder', ['net.enzey.services.events']);
+
+    module.directive('reorderableColumns', function() {
+        var incrementedId = 0;
+        var getId = function() {
+            return 'colId' + incrementedId++;
+        };
+
+        return {
+            controller: ["$scope","$element", function($scope, $element) {
+                var swapEnabled = false;
+                var ctrl = this;
+
+                this.isSwapEnabled = function() {
+                    return !!swapEnabled;
+                };
+
+                this.maxSideDropSize = function() {
+                    return 50;
+                };
+
+                var tableElems = [];
+                if ($element) {
+                    if ($element[0].tagName === 'TABLE') {
+                        tableElems.push($element[0]);
+                    } else {
+                        var tables = $element[0].querySelectorAll('table');
+                        for (var i = 0; i < tables.length; i++) {
+                            tableElems.push(tables[i]);
+                        }
+                    }
+                }
+
+                var templateMapper = {};
+
+                this.getTemplate = function(rowId) {
+                    return templateMapper[rowId];
+                };
+
+                this.setTemplate = function(rowId, template) {
+                    if (!templateMapper[rowId]) {
+                        templateMapper[rowId] = template;
+                    }
+                };
+
+                var reorder = function(array, newIndex, oldIndex, offset) {
+                    if (oldIndex < newIndex) {
+                        newIndex--;
+                    }
+
+                    var columnCount = array.length;
+                    if (oldIndex >= columnCount || newIndex >= columnCount) {
+                        return;
+                    }
+
+                    if (offset < 0) {
+                        // Insert Before
+                        var oldColumn = array.splice(oldIndex, 1)[0];
+                        array.splice(newIndex, 0, oldColumn);
+                    } else if (offset > 0) {
+                        // Insert After
+                        var oldColumn = array.splice(oldIndex, 1)[0];
+                        array.splice(newIndex + 1, 0, oldColumn);
+                    } else if (ctrl.isSwapEnabled()) {
+                        // Swap Column Places
+                        var oldColumn = array.splice(oldIndex, 1)[0];
+                        var newColumn = array.splice(newIndex, 1)[0];
+                        array.splice(newIndex, 0, oldColumn);
+                        array.splice(oldIndex, 0, newColumn);
+                    }
+
+                    return array;
+                };
+
+                this.reorderColumns = function(oldColIndex, newColIndex, offset) {
+
+                    if (oldColIndex === null || newColIndex === null || oldColIndex === newColIndex) {
+                        return;
+                    }
+                    oldColIndex = +oldColIndex;
+                    newColIndex = +newColIndex;
+                    offset = parseInt(offset);
+                    if (oldColIndex < 0 || newColIndex < 0 || offset < -1 || offset > 1) {
+                        return;
+                    }
+                    if (!ctrl.isSwapEnabled() && offset === 0) {
+                        return;
+                    }
+
+                    // Reorder COL Elements
+                    tableElems.forEach(function(tableElem) {
+                        var colElems = tableElem.querySelectorAll('col');
+
+                        var reorderedColElems = angular.element(colElems);
+                        reorderedColElems = reorder(reorderedColElems, newColIndex, oldColIndex, offset);
+                        reorderedColElems = reorderedColElems.map(function(index, elem) {
+                            return elem.cloneNode();
+                        });
+                        var firstModifiedColumn = Math.min(newColIndex, oldColIndex);
+                        reorderedColElems = reorderedColElems.slice(firstModifiedColumn, Math.max(newColIndex, oldColIndex) + 1);
+
+                        reorderedColElems.each(function (index, colElement) {
+                            var colElementStyles = colElement.style;
+                            Object.keys(colElementStyles).forEach(function(styleKey) {
+                                colElems[index + firstModifiedColumn].style[styleKey] = colElementStyles[styleKey];
+                            });
+                        });
+                    });
+
+                    // Reorder Row Templates
+                    Object.keys(templateMapper).forEach(function(rowId) {
+                        var rowTemplate = templateMapper[rowId];
+                        rowTemplate = angular.element('<tr>' + rowTemplate + '<tr>');
+                        rowTemplate = angular.element(rowTemplate[0].children);
+
+                        var rowTemplate = reorder(rowTemplate, newColIndex, oldColIndex, offset);
+                        if (rowTemplate) {
+                            var newRowTemplate = '';
+                            for(var i = 0; i < rowTemplate.length; i++) {
+                                newRowTemplate += rowTemplate[i].outerHTML;
+                            }
+
+                            templateMapper[rowId] = newRowTemplate;
+                        }
+                    });
+
+                    $scope.$broadcast('drawTableRows');
+                }
+
+            }],
+            compile: function($element, $attrs) {
+                var headerRow = $element[0].querySelector('thead tr');
+                headerRow.setAttribute('reorderable-column-template-mapper', getId());
+
+                var headers = headerRow.querySelectorAll('th');
+                var headerCount = headers.length;
+                while (headerCount--) {
+                    headers[headerCount].setAttribute('reorderable-header-drag-drop', '');
+                }
+
+                var bodyRows = $element[0].querySelectorAll('tbody tr');
+                var bodyRowCount = bodyRows.length;
+                while (bodyRowCount--) {
+                    bodyRows[bodyRowCount].setAttribute('reorderable-column-template-mapper', getId());
+                }
+
+            }
+        }
+    });
+
+    module.directive('reorderableColumnTemplateMapper', ["$compile", function($compile) {
+        return {
+            require: '^reorderableColumns',
+            compile: function($element, $attrs) {
+                var directiveName = this.name;
+                var rowId = $attrs[directiveName];
+
+                var uncompiledHtml = $element[0].innerHTML;
+                $element.empty();
+
+                return {
+                    pre: function (scope, element, attrs, ReorderColCtrl) {
+                        ReorderColCtrl.setTemplate(rowId, uncompiledHtml);
+
+                        var buildRow = function() {
+                            element.empty();
+                            var rowTemplate = ReorderColCtrl.getTemplate(rowId);
+                            rowTemplate = angular.element(rowTemplate);
+                            element.append(rowTemplate);
+                            $compile(rowTemplate)(scope);
+                        };
+                        buildRow();
+
+                        scope.$on('drawTableRows', buildRow);
+                    }
+                }
+
+            }
+        }
+    }]);
+
+    module.directive('reorderableHeaderDragDrop', ["nzEventHelper","$timeout", function(nzEventHelper, $timeout) {
+        return {
+            require: '^reorderableColumns',
+            compile: function($element, $attrs) {
+
+                return {
+                    pre: function (scope, element, attrs, ReorderColCtrl) {
+
+                        var allDropIndicatorClasses = [
+                            'dropLeft',
+                            'dropRight',
+                            'dropCenter'
+                        ];
+                        var removeHoverClasses = function(classToRetain) {
+                            allDropIndicatorClasses.forEach(function(dropIndicatorClass) {
+                                if (classToRetain !== dropIndicatorClass) {
+                                    element.removeClass(dropIndicatorClass);
+                                }
+                            });
+                        };
+
+                        var getElementHoverOffset =  function(event) {
+                            var boundingRect = element[0].getBoundingClientRect();
+                            var hoverSectionWidth = boundingRect.width / 2;
+                            if (ReorderColCtrl.isSwapEnabled()) {
+                                hoverSectionWidth = boundingRect.width / 3;
+                            }
+                            hoverSectionWidth = Math.min(hoverSectionWidth, ReorderColCtrl.maxSideDropSize());
+                            if (event.pageX < (boundingRect.left + hoverSectionWidth)) {
+                                // Left 1/3 of Element
+                                return -1;
+                            } else if (event.pageX > (boundingRect.left + boundingRect.width - hoverSectionWidth)) {
+                                // Right 1/3 of element
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        };
+
+                        nzEventHelper.registerDragHandler(element[0], 'columnReorder',
+                            function(event) {
+                                // Start Drag
+                                element.addClass('columnDrag');
+                            },
+                            function(event) {
+                                // End Drag
+                                element.removeClass('columnDrag');
+                            }
+                        );
+
+                        var dragActionId;
+                        nzEventHelper.registerDropHandler(element[0], 'columnReorder',
+                            function(event) {
+                                // Drag Enter
+                            },
+                            function(event) {
+                                $timeout.cancel(dragActionId);
+                                dragActionId = $timeout(function() {
+                                    // Drag Over
+                                    var elementHoverOffset = getElementHoverOffset(event);
+                                    var dropIndicatorClass;
+                                    if (elementHoverOffset < 0) {
+                                        dropIndicatorClass = 'dropLeft';
+                                    } else if (elementHoverOffset > 0) {
+                                        dropIndicatorClass = 'dropRight';
+                                    } else if (ReorderColCtrl.isSwapEnabled()) {
+                                        dropIndicatorClass = 'dropCenter';
+                                    }
+                                    element.addClass(dropIndicatorClass);
+                                    removeHoverClasses(dropIndicatorClass);
+                                }, 2, false);
+                            },
+                            function(event) {
+                                // Drag Leave
+                                $timeout.cancel(dragActionId);
+                                removeHoverClasses();
+                            },
+                            function(dragElement, dropElement, event) {
+                                // Drop
+                                $timeout.cancel(dragActionId);
+                                removeHoverClasses();
+
+                                var dragIndex = null;
+                                var dropIndex = null;
+
+                                var headerRowElem = dragElement.parentElement;
+                                if (headerRowElem === dropElement.parentElement) {
+                                    var headerElems = headerRowElem.children;
+                                    for (var i = 0; i < headerElems.length; i++) {
+                                        var header = headerElems[i];
+                                        if (header === dragElement) {
+                                            dragIndex = i;
+                                        } else if (header === dropElement) {
+                                            dropIndex = i;
+                                        }
+                                    }
+                                }
+
+                                ReorderColCtrl.reorderColumns(dragIndex, dropIndex, getElementHoverOffset(event));
+                                scope.$apply();
+                            }
+                        );
+
+                    }
+                }
+
+            }
+        }
+    }]);
+
+})(angular);
 //End of file
 (function(angular, $, Math) {
     'use strict';
@@ -532,6 +827,7 @@ var MouseClickObserver = function($, angular, window) {
         'table.highlightColumn',
         'table.column-resizing',
         'table.column-visibility',
+        'table.column-reorder',
         'table.column-fixed'
     ]);
     
@@ -546,12 +842,12 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
     var guid = (function() {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
+                .toString(16)
+                .substring(1);
         }
         return function() {
             return 's' + s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                    s4() + '-' + s4() + s4() + s4();
+                s4() + '-' + s4() + s4() + s4();
         };
     })();
 
@@ -588,13 +884,13 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
         columnFixed: 'col-fixed'
     });
 
-    tables.directive('tableScrollingTable', ["$timeout","$log","$document","ScrollingTableHelper","TableAttributes","TableEvents", function($timeout, $log, $document, ScrollingTableHelper, TableAttributes, TableEvents) {
+    tables.directive('tableScrollingTable', ["$timeout","$log","$document","$compile","ScrollingTableHelper","TableAttributes","TableEvents", function($timeout, $log, $document, $compile, ScrollingTableHelper, TableAttributes, TableEvents) {
 
         /**
          * Will ensure that each table row has reference attribute as defined by the refIdAttribute.
          * If no attribute is found, a new guid will be generated and inserted.
-         * 
-         * @param {type} content The current table content   
+         *
+         * @param {type} content The current table content
          * @param {type} refIdAttribute  The reference ID attribute
          */
         function ensureRowIds(content, refIdAttribute) {
@@ -614,7 +910,7 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
                 for (var i = 0; i < mlen; ++i) {
                     var mutation = mutations[0];
                     var list = (mutation.addedNodes && mutation.addedNodes.length > 0) ?
-                            mutation.addedNodes : mutation.removedNodes;
+                        mutation.addedNodes : mutation.removedNodes;
                     var len = list.length;
                     if (len > 0) {
                         for (var j = 0; j < len; j++) {
@@ -663,7 +959,7 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
                 }
                 var trLen = $("#" + tableId + " tbody tr").length;
                 if (trLen > lastCount) {
-                   // $log.debug("detected the following addditions:" + (trLen - lastCount));
+                    // $log.debug("detected the following addditions:" + (trLen - lastCount));
                     scope.$emit(TableEvents.insertRows, {
                         tableId: tableId,
                         inserted: (trLen - lastCount)
@@ -697,18 +993,18 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             var scroller = tableWrapper.find('.scroller');
             var header = tableWrapper.find('.tableHeader');
             var delta = tableWrapper.height() - header.height();
-            scroller.css('max-height', (Math.max(delta, 250)) + 'px');
+            scroller.css('max-height', (Math.min(delta, 250)) + 'px');
             header.css("padding-right", (scroller.width() - scroller.find('table').width()) + "px");
             //$log.debug("scroller height: " + scroller.css('max-height'));
         }
 
         /**
-         * Configures the column groups for both the table application and table body
-         * tables.  If a column group is present on the application it will be used.
-         * However, if one is generated it will set the widths of any existing 
-         * width attributes on the TH elements on the COL elements and remove the 
+         * Configures the column groups for both the table header and table body
+         * tables.  If a column group is present on the header it will be used.
+         * However, if one is generated it will set the widths of any existing
+         * width attributes on the TH elements on the COL elements and remove the
          * explicit widths from any TH and/or TD cells.
-         * 
+         *
          * @param $element
          * @param headerTable
          * @param dataTable
@@ -733,7 +1029,7 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
                         el.removeAttr("width");
                         tbody.find('td:nth-child(' + (index + 1) + ')').removeAttr("width");
                     }
-                    html += "<col " + ((w !== null) ? "width=\"" + w + "\"" : "") + "/>";
+                    html += "<col " + ((w !== null) ? 'style="width:' + w + '"' : '') + "/>";
                 });
                 html += '</colgroup>';
                 colGroup = $(html);
@@ -743,47 +1039,34 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
             }
             colGroup.clone().appendTo(dataTable);
         }
-        
+
         /**
          * Copy attributes to the wrapper that are not table or column directives
          * and insert a comment block of the the directives into the wrapper
-         * 
+         *
          * @param {type} element
          * @param {type} wrapper
          * @returns {String}
          */
         function copyAttributesToWrapper(element, wrapper) {
             var attrs = element[0].attributes;
-            var comment = '';
             angular.forEach(attrs, function(att, index) {
-               var name = att.nodeName;
-               // check both data- and table-/col- forms
-               if( !(name.indexOf('data-table-') === 0 || name.indexOf('table-') === 0 ||
-                       name.indexOf('data-col-') === 0 || name.indexOf('col-') === 0 )) {
-                   wrapper.attr( name, att.value );
-               } else {
-                   if( comment.length === 0 ) {
-                       comment += '<!--\n';
-                   }
-                   comment += '    ' + name + '="' + att.value + '"\n';
-               }
+                // check both data- and table-/col- forms
+                wrapper.attr( att.nodeName, att.value );
             });
-            if( comment.length > 0 ) {
-                comment += '-->';
-            }
-            wrapper.prepend(comment);
         }
 
         return {
             restrict: 'A',
             scope: true,
+            terminal: true,
+            priority: 1000,
             compile: function compile($element, attrs, transclude) {
 
-                var wrapper = $('<div class="tableWrapper" id="' + guid() + '">' +
-                        '<div class="tableHeader"><table></table></div>' +
-                        '<div class="scroller"><table></table></div>' +
-                        '</div>');
-
+                var wrapper = $('<div class="tableWrapper" id="' + guid() + '" data-reorderable-columns>' +
+                '<div class="tableHeader"><table></table></div>' +
+                '<div class="scroller"><table></table></div>' +
+                '</div>');
                 var headerTable = $(wrapper.find('.tableHeader table')[0]);
                 var dataTable = $(wrapper.find('.scroller table')[0]);
                 var thead = $element.find('thead');
@@ -836,10 +1119,18 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
                     pre: function(scope, element, attrs) {
                         scope.headersElemArray = headersElemArray;
                         scope.bodyElemArray = bodyElemArray;
+
+                        $compile(wrapper, null, 1000)(scope);
                     },
                     post: function(scope, element, attrs) {
                         var refIdAttribute = (typeof attrs.refId !== 'undefined') ? attrs.refId : TableAttributes.refId;
                         var cloneHead = element.find('.tableHeader thead').first().clone();
+                        // angularJS will update the classes so we need to re-apply the tableWrapper class to the wrapping DIV
+                        var classes = element.attr('class');
+                        if(!classes ) {
+                            classes = '';
+                        }
+                        element.attr('class', 'tableWrapper ' + classes);
                         // we can likely remove the min-width on the headers
                         var allMinWidthHeaders = cloneHead.find('th');
                         element.append(cloneHead);
@@ -859,11 +1150,15 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
                                 id = evt.currentTarget.id;
                             }
                             if (id === tableUUID) {
-                                calculateScrollerHeight(element);
-                                ensureRowIds(element, refIdAttribute);
+                                processFn(element, refIdAttribute);
                             }
                         };
-                        calculateScrollerHeight(element);
+                        var processFn = function(element,refIdAttribute) {
+                            calculateScrollerHeight(element);
+                            ensureRowIds(element, refIdAttribute);
+                        };
+
+                        processFn(element, refIdAttribute);
                         $("#" + tableUUID).resize(calcFn);
 
                         trackRowChanges(tableUUID, scope);
@@ -877,7 +1172,7 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 })(angular, jQuery, Math, MutationObserver);
 //End of file
-(function(angular) {
+(function(angular, $) {
 
     'use strict';
 
@@ -999,4 +1294,4 @@ MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
                     }
                 };
             }]);
-})(angular);
+})(angular, jQuery);

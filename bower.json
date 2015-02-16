@@ -16,6 +16,7 @@
     "html5-boilerplate": "~4.3.0",
     "polymer": "Polymer/polymer#~0.5.2",
     "ng-scrolling-table": "0.9.1",
+    "nz-services": "0.1.x",
     "angular-material": "master",
     "angular-local-storage": "~0.1.5"
   }
