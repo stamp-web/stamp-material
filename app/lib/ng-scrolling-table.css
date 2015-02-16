@@ -25,6 +25,10 @@
 .tableWrapper .scroller td {
   border: 1px #d9d9d9 solid;
   overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .tableWrapper .scroller td.col-highlight {
   background-color: #bbd0d9;
@@ -33,6 +37,10 @@
 .tableWrapper .scroller tr {
   display: table-row;
   color: #000000;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .tableWrapper .scroller tr:hover {
   background-color: #d2e0e6;
@@ -104,6 +112,17 @@
   margin: 0;
   padding: 4px;
 }
+.tableWrapper th {
+  position: relative;
+}
+.tableWrapper .resizeGripper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 15px;
+  cursor: col-resize;
+}
 .col-hidden {
   display: none;
 }
@@ -132,4 +151,16 @@
   height: 1px;
   overflow: hidden;
   position: absolute;
+}
+.columnDrag {
+  box-shadow: inset 0 0 2px 2px rgba(0, 0, 0, 0.25);
+}
+.dropLeft {
+  box-shadow: inset 1em 0px 1em -0.5em rgba(0, 0, 0, 0.25);
+}
+.dropCenter {
+  box-shadow: inset 0em 0px 0.5em 0.5em rgba(0, 0, 0, 0.25);
+}
+.dropRight {
+  box-shadow: inset -1em 0px 1em -0.5em rgba(0, 0, 0, 0.25);
 }
