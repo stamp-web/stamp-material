@@ -6,6 +6,9 @@
     height: 32px;
 }
 
+md-toolbar.md-default-theme.default-toolbar {
+    background-color: #e0e0e0;
+}
 .content-panel {
     position: absolute;
     left: 0px;
@@ -127,4 +130,16 @@ md-switch:focus .md-label:not(:empty) {
 .my-slide-animation.ng-enter.ng-enter-active:last-child > * {
     top: 0;
     opacity: 1;
+}
+
+.tableWrapper {
+    min-height: 250px;
+}
+
+.edit-actions {
+    padding: 10px;
+}
+.edit-actions button {
+    width: 75px;
+    margin: 5px;
 }

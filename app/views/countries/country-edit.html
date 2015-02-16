@@ -1,0 +1,33 @@
+<div layout="column" layout-align="center center" class="main-content">
+    <md-content class="md-padding md-default-theme">
+        <form name="country-edit">
+            <div layout="column">
+
+                <md-input-container flex class="md-default-theme">
+                    <label for="country_name">Name</label>
+                    <input ng-model="model.name" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0"
+                           id="country_name" aria-invalid="false">
+                </md-input-container>
+
+                <md-input-container flex class="md-default-theme">
+                    <label for="country_description">Description</label>
+                    <textarea ng-model="model.description" class="ng-pristine ng-untouched ng-valid md-input"
+                              tabindex="0" id="country_description" aria-invalid="false">
+                    </textarea>
+                </md-input-container>
+                <md-checkbox ng-model="modifyStamps" aria-label="Modify image paths" ng-true-value="'true'" ng-false-value="'false'" class="md-warn ng-valid md-default-theme ng-dirty ng-valid-parse ng-touched" role="checkbox" tabindex="0" aria-checked="true" aria-invalid="false">
+
+                    <div class="md-label"><span>Modify image paths</span></div>
+                </md-checkbox>
+                <div layout="row" layout-align="center center" class="edit-actions">
+                    <button class="md-raised md-primary md-button md-default-theme" ng-click="save()">
+                        <span>Save</span>
+                    </button>
+                    <button class="md-raised md-button md-default-theme" ng-click="cancel()">
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </md-content>
+</div>

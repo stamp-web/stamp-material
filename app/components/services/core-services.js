@@ -233,10 +233,10 @@
                 return false;
             });
         };
-        ctx.update = function (item) {
+        ctx.update = function (item, params) {
             var that = ctx;
             if (typeof item.put !== 'undefined') {
-                return item.put().then(function (result) {
+                return item.put(params).then(function (result) {
                     ctx.lastCacheHit.id = -1;
                     that.query(ctx.getLastParameters()).then(function (results) {
                         var index = that.indexOf(result.id);
