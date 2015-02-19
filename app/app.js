@@ -26,6 +26,8 @@ angular.module('stamp-web', [
     }).
     config(function($mdThemingProvider) {
         $mdThemingProvider.theme('default')
+            .primaryPalette('blue-grey')
+            .accentPalette('light-blue');
     }).
 
         config(function (RestangularProvider) {

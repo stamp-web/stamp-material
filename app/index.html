@@ -19,12 +19,12 @@
 
 <div layout="column" layout-fill>
     <ng-include src="'views/application/header.html'"></ng-include>
-    <section layout="row" flex>
+    <div layout="row" flex>
         <ng-include src="'views/application/nav-menu.html'"></ng-include>
         <md-content class="content-panel">
             <div layout-fill ng-view class="my-slide-animation"></div>
         </md-content>
-    </section>
+    </div>
     <ng-include src="'views/application/footer.html'"></ng-include>
 </div>
 

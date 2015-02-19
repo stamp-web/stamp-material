@@ -69,6 +69,10 @@ md-switch:focus .md-label:not(:empty) {
     border-style:none !important;
 }
 
+.stampform-editor md-input-container {
+    padding-bottom: 15px;
+}
+
 .form-field {
     padding-bottom: 5px;
 }

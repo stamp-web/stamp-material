@@ -18,7 +18,7 @@
     "ng-scrolling-table": "0.9.1",
     "nz-services": "0.1.x",
     "hammerjs": "latest",
-    "angular-material": "master",
+    "angular-material": "v0.8.0-rc1",
     "angular-local-storage": "~0.1.5"
   }
 }

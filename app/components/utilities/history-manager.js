@@ -8,7 +8,6 @@
 
         this.add = function( url ) {
             visited.push(url);
-            console.log(visited);
         }
 
         this.clear = function() {
@@ -33,6 +32,7 @@
 
     module.run(function($rootScope, $location, HistoryManager) {
        $rootScope.$on('$locationChangeSuccess', function(e, to, from) {
+           console.log("bing");
            if( from.indexOf('#!') >= 0 ) {
                var path = from.substring(from.indexOf('#!')+2);
                var search = "";

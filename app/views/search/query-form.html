@@ -1,26 +1,28 @@
 <div layout="column" layout-align="center center" class="main-content">
 
     <div class="query-form md-whiteframe-z1" layout="column" layout-align="left center">
-        <md-subheader class="md-primary">Search Criteria</md-subheader>
-        <md-input-container class="form-field" flex>
-            <select
-                    class="md-input"
-                    ng-model="selected.countryRef"
-                    ng-options="value.name for value in countries track by value.id">
-                <option value="">-- select country --</option>
-            </select>
-        </md-input-container>
-        <md-input-container class="form-field" flex>
-            <select
-                    class="md-input"
-                    ng-model="selected.albumRef"
-                    ng-options="value.name for value in albums track by value.id">
-                <option value="">-- select album --</option>
-            </select>
-        </md-input-container>
-        <div class="form-field">
+        <section>
+            <h3 class="md-primary">Search Criteria</h3>
+            <md-input-container class="form-field" flex>
+                <select
+                        class="md-input"
+                        ng-model="selected.countryRef"
+                        ng-options="value.name for value in countries track by value.id">
+                    <option value="">-- select country --</option>
+                </select>
+            </md-input-container>
+            <md-input-container class="form-field" flex>
+                <select
+                        class="md-input"
+                        ng-model="selected.albumRef"
+                        ng-options="value.name for value in albums track by value.id">
+                    <option value="">-- select album --</option>
+                </select>
+            </md-input-container>
+            <div class="form-field">
 
-                <md-switch ng-model="selected.wantList" ng-true-value="undefined" aria-label="Search for only all stamps">
+                <md-switch ng-model="selected.wantList" ng-true-value="undefined"
+                           aria-label="Search for only all stamps">
                     All stamps
                 </md-switch>
                 <md-switch ng-model="selected.wantList" ng-true-value="false" aria-label="Search for only owned stamps">
@@ -30,8 +32,8 @@
                     Only wantlist stamps
                 </md-switch>
 
-        </div>
-
+            </div>
+        </section>
     </div>
 
 

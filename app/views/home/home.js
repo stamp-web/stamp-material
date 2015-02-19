@@ -11,7 +11,6 @@
     }]);
 
     module.controller('MainCtrl', function($scope,LocationServices, Preferences) {
-            console.log(LocationServices);
             Preferences.query().then(function(data) {
                 console.log(data);
             })

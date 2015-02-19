@@ -1,11 +1,11 @@
 <div layout-fill class="main-content">
     <md-content layout-fill class="md-default-theme" layout="column" >
         <md-toolbar class="default-toolbar">
-            <md-button class="md-fab md-button md-default-theme" ng-transclude="" data-ng-click="edit(selection.getSelected())" aria-label="Edit Country">
-                <md-icon icon="resources/images/edit-icon-24x24.png" class="ng-scope ng-isolate-scope md-default-theme" aria-hidden="true"></md-icon>
+            <md-button class="md-fab md-button md-default-theme"  data-ng-click="edit(selection.getSelected())" aria-label="Edit Country">
+                <img ng-src="resources/images/edit-icon-24x24.png" class="md-default-theme" aria-hidden="true"/>
             </md-button>
         </md-toolbar>
-        <table layout-fill table-scrolling-table table-empty-message="No countries found." table-selector>
+        <table layout-fill table-scrolling-table table-columns-resizable table-empty-message="No countries found." table-selector>
             <thead>
             <tr>
                 <th>Name</th>
