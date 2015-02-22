@@ -1,26 +1,24 @@
-<div layout="column" layout-align="center center" class="main-content">
-    <md-content class="md-padding md-default-theme">
-        <form name="country-edit" class="stampform-editor">
+<div layout="column" layout-align="center center" class="main-content md-default-theme">
+    <md-content class="md-padding">
+        <form novalidate name="countryEdit" class="stampform-editor">
             <div layout="column">
-
-                <md-input-container flex class="md-default-theme">
+                <md-input-container md-is-error="!(model.name.length > 0)">
                     <label for="country_name">Name</label>
-                    <input ng-model="model.name" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0"
-                           id="country_name" aria-invalid="false">
+                    <input ng-model="model.name" name="countryName" tabindex="0" required id="country_name" autofocus>
+                    <div ng-messages="countryEdit.countryName.$error">
+                        <div ng-message="required">The name is required.</div>
+                    </div>
                 </md-input-container>
-
-                <md-input-container flex class="md-default-theme">
+                <md-input-container class="no-messaging">
                     <label for="country_description">Description</label>
-                    <textarea ng-model="model.description" class="ng-pristine ng-untouched ng-valid md-input"
-                              tabindex="0" id="country_description" aria-invalid="false">
+                    <textarea ng-model="model.description" id="country_description" rows="3">
                     </textarea>
                 </md-input-container>
-                <md-checkbox ng-model="modifyStamps" aria-label="Modify image paths" ng-true-value="'true'" ng-false-value="'false'" class="md-warn ng-valid md-default-theme ng-dirty ng-valid-parse ng-touched" role="checkbox" tabindex="0" aria-checked="true" aria-invalid="false">
-
+                <md-checkbox ng-if="model.id>0" ng-model="modifyStamps" md-no-ink ng-true-value="'true'" ng-false-value="'false'" class="md-primary">
                     <div class="md-label"><span>Modify image paths</span></div>
                 </md-checkbox>
-                <div layout="row" layout-align="center center" class="edit-actions">
-                    <button class="md-raised md-primary md-button md-default-theme" ng-click="save()">
+                <div layout="row" layout-align="center center" class="edit-actions" >
+                    <button class="md-raised md-primary md-button md-default-theme" ng-disabled="countryEdit.$invalid || !countryEdit.$dirty"  ng-click="save()">
                         <span>Save</span>
                     </button>
                     <button class="md-raised md-button md-default-theme" ng-click="cancel()">

@@ -14,6 +14,7 @@ angular.module('stamp-web', [
     'views.countries',
     'views.application',
     'ngMaterial',
+    'ngMessages',
     'myApp.version'
 ]).
     config(function($locationProvider, $routeProvider) {

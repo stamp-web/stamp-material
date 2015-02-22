@@ -10,13 +10,36 @@
         });
     }])
 
-    module.controller('QuerySearchCtrl', function($scope,$timeout, $location, SearchCriteria, Countries, Albums) {
-        var expectedServiceCount = 2;
+    module.controller('QuerySearchCtrl', function($scope,$timeout, $location, SearchCriteria, Countries, Albums, StampCollections) {
+        var expectedServiceCount = 3;
         var loadCount = 0;
 
         $scope.countries = [];
         $scope.albums = [];
+        $scope.stampCollections = [];
         $scope.searchInvalid = true;
+
+        $scope.selected = {
+            countryRef: undefined,
+            albumRef: undefined,
+            stampCollectionRef: undefined
+        };
+
+        $scope.selectedLabel = {};
+
+        function setupLabelWatch( field, collection, placeholder) {
+            $scope.$watch('selected.' + field, function(newVal, oldVal) {
+                if (newVal && angular.isNumber(newVal)) {
+                    $scope.selectedLabel[field] = $scope.getName(collection, newVal);
+                } else {
+                    $scope.selectedLabel[field] = placeholder;
+                }
+            });
+        }
+
+        setupLabelWatch('countryRef', 'countries', '-- Select a country --');
+        setupLabelWatch('albumRef', 'albums', '-- Select an album --');
+        setupLabelWatch('stampCollectionRef', 'stampCollections', '-- Select a collection --');
 
         $scope.$watchCollection('selected', function(newVal, oldVal) {
             validateSearchValidity(newVal);
@@ -46,6 +69,34 @@
             $location.path('/stamp-list');
         }
 
+        $scope.getName = function (collection, id) {
+            var name = '';
+            if (id && id > 0) {
+                var col;
+                switch (collection) {
+                    case 'countries':
+                        col = $scope.countries;
+                        break;
+                    case 'albums':
+                        col = $scope.albums;
+                        break;
+                    case 'stampCollections':
+                        col = $scope.stampCollections;
+                        break;
+                }
+                if (col) {
+                    var len = col.length;
+                    for (var i = 0; i < len; i++) {
+                        if (col[i].id === +id) {
+                            name = col[i].name;
+                            break;
+                        }
+                    }
+                }
+            }
+            return name;
+        }
+
         var load = function(Svc, collection) {
             Svc.query({
                 $orderby: 'name'
@@ -58,6 +109,7 @@
         var initialize = function() {
             load(Countries,'countries');
             load(Albums,'albums');
+            load(StampCollections,'stampCollections');
         };
 
         var initializeFromCriteria = function() {
@@ -69,12 +121,18 @@
                     switch( keys[i] ) {
                         case "countryRef":
                             if( criteria[keys[i]] ) {
-                                $scope.selected.countryRef = Countries.findById( criteria[keys[i]].id );
+                                console.log("countryRef");
+                                $scope.selected.countryRef = criteria[keys[i]].id;
                             }
                             break;
                         case "albumRef":
                             if( criteria[keys[i]] ) {
-                                $scope.selected.albumRef = Albums.findById(  criteria[keys[i]].id );
+                                $scope.selected.albumRef = criteria[keys[i]].id;
+                            }
+                            break;
+                        case "stampCollectionRef":
+                            if( criteria[keys[i]] ) {
+                                $scope.selected.stampCollectionRef = criteria[keys[i]].id;
                             }
                             break;
                         case "wantList":

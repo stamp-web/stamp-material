@@ -80,7 +80,6 @@ npm start
 Now browse to the app at `http://localhost:8000/app/index.html`.
 
 
-
 ## Directory Layout
 
 ```
@@ -106,14 +105,44 @@ app/                    --> all of the source files for the application
   index.html            --> app layout file (the main html template file of the app)
   index-async.html      --> just like index.html, but loads js files asynchronously
 karma.conf.js         --> config file for running unit tests with Karma
-e2e-tests/            --> end-to-end tests
+conf/            --> end-to-end tests
   protractor-conf.js    --> Protractor config file
-  scenarios.js          --> end-to-end scenarios to be run by Protractor
+tests/
+  e2e/
+     capability1/
+        sometest-spec.js
 ```
 
 ## Testing
 
-There are two kinds of tests in the angular-seed application: Unit tests and End to End tests.
+The follow are instructions related to the testing of the application.
+
+### End to end testing
+
+These tests are run with the [Protractor][protractor] End-to-End test runner.  It uses native events and has
+special features for Angular applications.
+
+* the configuration is found at `conf/protractor-conf.js`
+* the end-to-end tests are found in `tests/e2e/**/*-spec.js`
+
+
+Protractor is built upon WebDriver we need to install this.
+
+```
+npm run update-webdriver
+```
+
+This will download and install the latest version of the stand-alone WebDriver tool.
+
+Once you have ensured that the development web server hosting our application is up and running
+and WebDriver is updated, you can run the end-to-end tests using the supplied npm script:
+
+```
+npm run protractor
+```
+
+This script will execute the end-to-end tests against the application being hosted on the
+development server.
 
 ### Running Unit Tests
 
@@ -144,41 +173,7 @@ npm run test-single-run
 ```
 
 
-### End to end testing
 
-The angular-seed app comes with end-to-end tests, again written in [Jasmine][jasmine]. These tests
-are run with the [Protractor][protractor] End-to-End test runner.  It uses native events and has
-special features for Angular applications.
-
-* the configuration is found at `e2e-tests/protractor-conf.js`
-* the end-to-end tests are found in `e2e-tests/scenarios.js`
-
-Protractor simulates interaction with our web app and verifies that the application responds
-correctly. Therefore, our web server needs to be serving up the application, so that Protractor
-can interact with it.
-
-```
-npm start
-```
-
-In addition, since Protractor is built upon WebDriver we need to install this.  The angular-seed
-project comes with a predefined script to do this:
-
-```
-npm run update-webdriver
-```
-
-This will download and install the latest version of the stand-alone WebDriver tool.
-
-Once you have ensured that the development web server hosting our application is up and running
-and WebDriver is updated, you can run the end-to-end tests using the supplied npm script:
-
-```
-npm run protractor
-```
-
-This script will execute the end-to-end tests against the application being hosted on the
-development server.
 
 
 ## Updating Angular

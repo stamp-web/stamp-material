@@ -1,7 +1,7 @@
 (function(angular) {
     "use strict";
 
-    var module = angular.module("views.countries", ["stampweb.services", "ngRoute", "components.utilities.history-management"]);
+    var module = angular.module("views.countries", ["stampweb.services", "ngRoute","ngMessages", "components.utilities.history-management"]);
 
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/country-list', {
@@ -39,7 +39,16 @@
                         console.log(error);
                     });
                 } else {
-                    console.log("create...");
+                    Countries.create($scope.model).then(function() {
+                        var loc = HistoryManager.last();
+                        if( loc !== null ) {
+                            HistoryManager.goto(loc);
+                        } else {
+                            $location.path("country-list");
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    })
                 }
             }
         }

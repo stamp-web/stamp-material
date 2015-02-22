@@ -69,8 +69,18 @@ md-switch:focus .md-label:not(:empty) {
     border-style:none !important;
 }
 
+md-checkbox .md-label {
+    border: none;
+}
+
+
+
 .stampform-editor md-input-container {
-    padding-bottom: 15px;
+    overflow: hidden;
+}
+
+md-input-container.no-messaging {
+    padding-bottom: 5px;
 }
 
 .form-field {
@@ -78,14 +88,18 @@ md-switch:focus .md-label:not(:empty) {
 }
 .form-field label {
     padding-right: 5px;
-    min-width: 125px;
+    min-width: 105px;
+    display: inline-block;
+    text-align: right;
 }
 
-.form-field select {
-    max-width: 350px;
-}
 .form-field label:after {
     content: ":";
+}
+
+.form-field md-select {
+    max-width: 350px;
+    min-width: 250px;
 }
 
 .my-slide-container {
