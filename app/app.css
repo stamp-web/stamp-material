@@ -73,7 +73,13 @@ md-checkbox .md-label {
     border: none;
 }
 
+md-select-menu {
+    overflow-y: hidden;
+}
 
+md-select-menu md-content {
+    min-width: 136px;
+}
 
 .stampform-editor md-input-container {
     overflow: hidden;
@@ -83,6 +89,16 @@ md-input-container.no-messaging {
     padding-bottom: 5px;
 }
 
+md-whiteframe {
+    background: #fff;
+    margin: 20px;
+    padding: 20px;
+}
+
+.md-input-focused textarea,.md-input-focused input {
+    background-color: #fdfdfd;
+}
+
 .form-field {
     padding-bottom: 5px;
 }
@@ -90,10 +106,13 @@ md-input-container.no-messaging {
     padding-right: 5px;
     min-width: 105px;
     display: inline-block;
+}
+
+.form-field label.select {
     text-align: right;
 }
 
-.form-field label:after {
+.form-field label.select:after {
     content: ":";
 }
 
@@ -102,26 +121,28 @@ md-input-container.no-messaging {
     min-width: 250px;
 }
 
-.my-slide-container {
-    position:relative;
+.stamp-editor md-whiteframe {
+
 }
-.my-slide-animation.ng-enter  {
+
+
+.slide-animation.ng-enter  {
     z-index: 10;
     -webkit-animation: .75s none;
     animation: .75s none;
 }
-.my-slide-animation.ng-leave  {
+.slide-animation.ng-leave  {
     -webkit-animation: .3s none;
     animation: .3s none;
 }
-.my-slide-animation.ng-enter ,
-.my-slide-animation.ng-leave {
+.slide-animation.ng-enter ,
+.slide-animation.ng-leave {
     overflow: hidden;
     position: absolute;
 }
 
-.my-slide-animation.ng-enter  > *,
-.my-slide-animation.ng-leave  > * {
+.slide-animation.ng-enter  > *,
+.slide-animation.ng-leave  > * {
     transition: top .6s ease, opacity .2s linear;
     -webkit-transition: top .6s ease, opacity .2s linear;
     position:absolute;
@@ -130,22 +151,22 @@ md-input-container.no-messaging {
     right:0;
 }
 
-.my-slide-animation.ng-enter > *,
-.my-slide-animation.ng-leave.ng-leave-active  > * {
+.slide-animation.ng-enter > *,
+.slide-animation.ng-leave.ng-leave-active  > * {
     opacity: 0;
 }
-.my-slide-animation.ng-leave > *,
-.my-slide-animation.ng-enter.ng-enter-active > * {
+.slide-animation.ng-leave > *,
+.slide-animation.ng-enter.ng-enter-active > * {
     opacity: 1;
 }
 
-.my-slide-animation.ng-enter:last-child > *,
-.my-slide-animation.ng-leave.ng-leave-active:last-child > * {
+.slide-animation.ng-enter:last-child > *,
+.slide-animation.ng-leave.ng-leave-active:last-child > * {
     top: -100%;
     opacity: 0;
 }
-.my-slide-animation.ng-leave:last-child > *,
-.my-slide-animation.ng-enter.ng-enter-active:last-child > * {
+.slide-animation.ng-leave:last-child > *,
+.slide-animation.ng-enter.ng-enter-active:last-child > * {
     top: 0;
     opacity: 1;
 }

@@ -25,22 +25,6 @@
             stampCollectionRef: undefined
         };
 
-        $scope.selectedLabel = {};
-
-        function setupLabelWatch( field, collection, placeholder) {
-            $scope.$watch('selected.' + field, function(newVal, oldVal) {
-                if (newVal && angular.isNumber(newVal)) {
-                    $scope.selectedLabel[field] = $scope.getName(collection, newVal);
-                } else {
-                    $scope.selectedLabel[field] = placeholder;
-                }
-            });
-        }
-
-        setupLabelWatch('countryRef', 'countries', '-- Select a country --');
-        setupLabelWatch('albumRef', 'albums', '-- Select an album --');
-        setupLabelWatch('stampCollectionRef', 'stampCollections', '-- Select a collection --');
-
         $scope.$watchCollection('selected', function(newVal, oldVal) {
             validateSearchValidity(newVal);
         });

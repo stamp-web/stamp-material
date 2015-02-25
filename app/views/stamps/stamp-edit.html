@@ -1,0 +1,76 @@
+<div class="stamp-editor">
+    <form name="stampEditor">
+        <md-content class="md-padding" layout-gt-md="row" layout="column" layout-align="center start">
+            <md-content layout-gt-sm="row" layout="column">
+                <md-whiteframe class="md-whiteframe-z1">
+                    <fieldset>
+                        <legend>Details</legend>
+                        <div class="form-field" flex>
+                            <label class="select">Country</label>
+                            <md-select ng-model="model.countryRef">
+                                <md-option ng-value="country.id" ng-repeat="country in countries">{{ ::country.name }}</md-option>
+                            </md-select>
+                        </div>
+                        <div class="form-field">
+                            <md-input-container>
+                                <label>Denomination</label>
+                                <input class="md-input" ng-model="model.rate" required />
+                            </md-input-container>
+                        </div>
+                        <div class="form-field">
+                            <md-input-container>
+                                <label>Description</label>
+                                <textarea class="md-input" ng-model="model.description" rows="3" />
+                            </md-input-container>
+                        </div>
+                    </fieldset>
+                </md-whiteframe>
+                <md-whiteframe class="md-whiteframe-z1">
+                    <fieldset>
+                        <legend>Active Catalogue Number</legend>
+                        <div class="form-field" flex>
+                            <label>Catalogue</label>
+                            <md-select ng-model="getCatalogueNumber().catalogueRef">
+                                <md-option ng-value="catalogue.id" ng-repeat="catalogue in catalogues">{{ ::catalogue.name }}</md-option>
+                            </md-select>
+                        </div>
+                        <div class="form-field">
+                            <md-input-container>
+                                <label>Number</label>
+                                <input class="md-input" ng-model="getCatalogueNumber().number" required />
+                            </md-input-container>
+                        </div>
+                        <div class="form-field" layout="row">
+                            <md-input-container >
+                                <label>Value</label>
+                                <input ng-disabled="model.unknown" class="md-input" ng-model="getCatalogueNumber().value" />
+                            </md-input-container>
+                            <span ng-if="code">({{code}})</span>
+                        </div>
+                        <div class="form-field" layout="column">
+                            <md-switch ng-model="model.unknown" aria-label="No value is listed in catalogue.">
+                                No value listed
+                            </md-switch>
+                            <md-switch ng-model="model.nospace" aria-label="No album space is defined for this stamp.">
+                                No album space available.
+                            </md-switch>
+                        </div>
+                    </fieldset>
+                </md-whiteframe>
+            </md-content>
+            <md-content layout="column">
+                <ng-include src="'views/stamps/stamp-ownership.html'"></ng-include>
+            </md-content>
+
+        </md-content>
+    </form>
+
+    <div layout="row" layout-align="center center" class="edit-actions" >
+        <button class="md-raised md-primary md-button md-default-theme" ng-disabled="stampEditor.$invalid || !stampEditor.$dirty"  ng-click="save()">
+            <span>Save</span>
+        </button>
+        <button class="md-raised md-button md-default-theme" ng-click="cancel()">
+            <span>Cancel</span>
+        </button>
+    </div>
+</div>

@@ -4,23 +4,20 @@
         <section>
             <h3 class="md-primary">Search Criteria</h3>
             <div class="form-field" flex>
-                <label>Album</label>
-                <md-select ng-model="selected.albumRef" >
-                    <md-select-label>{{ selectedLabel.albumRef }}</md-select-label>
-                    <md-option ng-value="album.id" ng-repeat="album in albums">{{ ::album.name }}</md-option>
-                </md-select>
-            </div>
-            <div class="form-field" flex>
-                <label>Country</label>
-                <md-select ng-model="selected.countryRef">
-                    <md-select-label>{{ selectedLabel.countryRef }}</md-select-label>
+                <label class="select">Country</label>
+                <md-select ng-model="selected.countryRef" placeholder="-- Select a country --">
                     <md-option ng-value="country.id" ng-repeat="country in countries">{{ ::country.name }}</md-option>
                 </md-select>
             </div>
             <div class="form-field" flex>
-                <label>Collection</label>
-                <md-select ng-model="selected.stampCollectionRef">
-                    <md-select-label>{{ selectedLabel.stampCollectionRef}}</md-select-label>
+                <label class="select">Album</label>
+                <md-select ng-model="selected.albumRef" placeholder="-- Select an album --" >
+                    <md-option ng-value="album.id" ng-repeat="album in albums">{{ ::album.name }}</md-option>
+                </md-select>
+            </div>
+            <div class="form-field" flex>
+                <label class="select">Collection</label>
+                <md-select ng-model="selected.stampCollectionRef" placeholder="-- Select a collection --">
                     <md-option ng-value="collection.id" ng-repeat="collection in stampCollections">{{ ::collection.name }}</md-option>
                 </md-select>
             </div>

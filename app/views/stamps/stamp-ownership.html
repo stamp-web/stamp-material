@@ -1,0 +1,43 @@
+<md-whiteframe class="md-whiteframe-z1" layout="" layout-align="center center">
+    <fieldset>
+        <legend>Owning Details</legend>
+        <div class="form-field" flex>
+            <label>Album</label>
+            <md-select ng-model="model.stampOwnerships[0].albumRef">
+                <md-option ng-value="album.id" ng-repeat="album in albums">{{ ::album.name }}</md-option>
+            </md-select>
+        </div>
+        <div class="form-field">
+            <label>Seller</label>
+            <md-select ng-model="model.stampOwnerships[0].sellerRef">
+                <md-option ng-value="seller.id" ng-repeat="seller in sellers">{{ ::seller.name }}</md-option>
+            </md-select>
+        </div>
+        <div class="form-field">
+            <md-input-container>
+                <label>Price Paid</label>
+                <input type="number" ng-model="model.stampOwnerships[0].pricePaid">
+            </md-input-container>
+        </div>
+        <div class="form-field">
+            <md-input-container class="no-messaging">
+                <label>Purchased</label>
+                <input type="date" ng-model="model.stampOwnerships[0].purchased">
+            </md-input-container>
+        </div>
+        <div class="form-field">
+            <md-input-container class="no-messaging">
+                <label>Image Path</label>
+                <input ng-model="model.stampOwnerships[0].img"/>
+            </md-input-container>
+        </div>
+        <div class="form-field">
+            <md-input-container class="no-messaging">
+                <label>Notes</label>
+                <textarea ng-model="model.stampOwnerships[0].notes" rows="2"></textarea>
+            </md-input-container>
+        </div>
+
+    </fieldset>
+
+</md-whiteframe>
