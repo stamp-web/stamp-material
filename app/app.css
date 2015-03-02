@@ -1,3 +1,11 @@
+html {
+    font-size: 11pt;
+}
+
+legend {
+    color: #0077b3;
+}
+
 .footer {
     position: absolute;
     top: calc(100% - 32px);
@@ -6,6 +14,10 @@
     height: 32px;
 }
 
+.footer > div {
+    top: 5px;
+    position: absolute;
+}
 md-toolbar.md-default-theme.default-toolbar {
     background-color: #e0e0e0;
 }
@@ -34,17 +46,29 @@ md-toolbar.md-default-theme.default-toolbar {
 
 }
 
+.nav-menu md-divider {
+    margin-bottom: 10px;
+}
+
+.nav-menu legend {
+    margin-left: 26px;
+}
 .nav-menu-item {
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
     color: #767676;
-    padding-left: 20px;
 }
 
 .nav-menu-item:hover {
     text-shadow: 0 0 1px #eeeeee;
     color: #232323;
     background-color: #bbdefb;
+}
+
+.nav-menu-item img {
+    padding-right: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 
 .menu-navigation {
@@ -104,27 +128,118 @@ md-whiteframe {
 }
 .form-field label {
     padding-right: 5px;
-    min-width: 105px;
+    min-width: 65px;
     display: inline-block;
 }
 
 .form-field label.select {
+ /*
     text-align: right;
+    */
 }
 
 .form-field label.select:after {
     content: ":";
 }
 
-.form-field md-select {
-    max-width: 350px;
-    min-width: 250px;
+.form-field input[type='number'] {
+    width: 110px;
+}
+
+.form-field .number {
+    width: 170px;
 }
 
 .stamp-editor md-whiteframe {
-
+    width: 400px;
 }
 
+.currency-selector {
+    width: 65px;
+    padding-bottom: 26px;
+    top: 25px;
+    position: relative;
+}
+
+.currency-label {
+    padding-bottom: 26px;
+    top: 25px;
+    position: relative;
+}
+
+.condition-selector {
+    width: 110px;
+}
+
+.grade-selector {
+    width: 130px;
+}
+
+.catalogue-selector, .country-selector, .album-selector, .stampCollection-selector, .seller-selector {
+    width: 310px;
+}
+
+.purchased {
+    width: 140px;
+}
+
+.pricePaid {
+    display: inline-flex;
+}
+
+.selector-wrapper label:not(.no-select) {
+    color: rgba(0,0,0,0.54);
+    order: 1;
+    display: block;
+    pointer-events: none;
+    -webkit-font-smoothing: antialiased;
+    padding-left: 2px;
+    z-index: 1;
+    -webkit-transform: translate3d(0, 8px, 0) scale(0.75);
+    transform: translate3d(0, 8px, 0) scale(0.75);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    transition: -webkit-transform cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+    transition: transform cubic-bezier(0.25, 0.8, 0.25, 1) 0.25s;
+}
+.selector-wrapper label.no-select {
+    color: rgba(0,0,0,0.26);
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-order: 2;
+    -ms-flex-order: 2;
+    order: 2;
+    display: block;
+    background: none;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border-width: 0 0 1px 0;
+    line-height: 26px;
+    -ms-flex-preferred-size: 26px;
+    -webkit-transform: translate3d(0, 34px, 0) scale(1);
+    transform: translate3d(0, 34px, 0) scale(1);
+    border-radius: 0;
+}
+
+md-select .md-select-label {
+    padding-right: 5px;
+}
+
+md-select .md-select-label span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: calc(100% - 15px);
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 12px;
+}
+
+md-select {
+    margin-top: 5px;
+}
 
 .slide-animation.ng-enter  {
     z-index: 10;
@@ -181,4 +296,17 @@ md-whiteframe {
 .edit-actions button {
     width: 75px;
     margin: 5px;
+}
+
+.server-activity {
+    opacity: 1.0;
+}
+.server-activity.ng-hide-add.ng-hide-add-active {
+    -webkit-transition: all linear 1.5s;
+    transition: all linear 1.5s;
+}
+
+.server-activity.ng-hide {
+    line-height: 0;
+    opacity: 0;
 }

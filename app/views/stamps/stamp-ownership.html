@@ -1,43 +1,73 @@
-<md-whiteframe class="md-whiteframe-z1" layout="" layout-align="center center">
-    <fieldset>
-        <legend>Owning Details</legend>
-        <div class="form-field" flex>
-            <label>Album</label>
-            <md-select ng-model="model.stampOwnerships[0].albumRef">
-                <md-option ng-value="album.id" ng-repeat="album in albums">{{ ::album.name }}</md-option>
-            </md-select>
-        </div>
-        <div class="form-field">
-            <label>Seller</label>
-            <md-select ng-model="model.stampOwnerships[0].sellerRef">
-                <md-option ng-value="seller.id" ng-repeat="seller in sellers">{{ ::seller.name }}</md-option>
-            </md-select>
-        </div>
-        <div class="form-field">
-            <md-input-container>
-                <label>Price Paid</label>
-                <input type="number" ng-model="model.stampOwnerships[0].pricePaid">
-            </md-input-container>
-        </div>
-        <div class="form-field">
-            <md-input-container class="no-messaging">
-                <label>Purchased</label>
-                <input type="date" ng-model="model.stampOwnerships[0].purchased">
-            </md-input-container>
-        </div>
-        <div class="form-field">
-            <md-input-container class="no-messaging">
-                <label>Image Path</label>
-                <input ng-model="model.stampOwnerships[0].img"/>
-            </md-input-container>
-        </div>
-        <div class="form-field">
-            <md-input-container class="no-messaging">
-                <label>Notes</label>
-                <textarea ng-model="model.stampOwnerships[0].notes" rows="2"></textarea>
-            </md-input-container>
-        </div>
+<md-content layout-sm="column" layout="row">
+    <md-whiteframe class="md-whiteframe-z1" layout="">
+        <fieldset>
+            <legend>Owning Details</legend>
+            <div class="selector-wrapper" flex label-transform="">
+                <label>Album</label>
+                <md-select ng-model="getStampOwnership().albumRef" class="album-selector">
+                    <md-option ng-value="album.id" ng-repeat="album in albums">{{ ::album.name }}</md-option>
+                </md-select>
+            </div>
+            <div class="form-field">
+                <condition-selector ng-model="getStampOwnership().condition"></condition-selector>
+                <grade-selector ng-model="getStampOwnership().grade"></grade-selector>
+            </div>
 
-    </fieldset>
+            <div class="form-field">
+                <md-input-container class="pricePaid">
+                    <label>Price Paid</label>
+                    <input type="number" name="pricePaid" ng-model="getStampOwnership().pricePaid"
+                           pattern="^\d+(?:\.\d{0,2})?$">
 
-</md-whiteframe>
+                    <div ng-messages="stampEditor.pricePaid.$error" class="messages">
+                        <div ng-message="number">Not a number.</div>
+                        <div ng-message="pattern">Not a number.</div>
+                    </div>
+                </md-input-container>
+                <currency-selector ng-model="getStampOwnership().code"></currency-selector>
+            </div>
+            <div class="form-field">
+                <md-input-container class="no-messaging">
+                    <label>Purchased</label>
+                    <input type="date" ng-model="getStampOwnership().purchased" class="purchased">
+                </md-input-container>
+            </div>
+            <div class="selector-wrapper" flex label-transform="">
+                <label>Seller</label>
+                <md-select ng-model="getStampOwnership().sellerRef" class="seller-selector">
+                    <md-option ng-value="seller.id" ng-repeat="seller in sellers">{{ ::seller.name }}</md-option>
+                </md-select>
+            </div>
+
+            <div class="form-field">
+                <md-input-container class="no-messaging">
+                    <label>Image Path</label>
+                    <input ng-model="getStampOwnership().img"/>
+                </md-input-container>
+            </div>
+
+
+        </fieldset>
+    </md-whiteframe>
+    <md-whiteframe class="md-whiteframe-z1" layout="">
+        <fieldset>
+            <legend>Additional Owning Details</legend>
+            <div class="form-field">
+                <md-switch ng-model="getStampOwnership().cert" aria-label="No value is listed in catalogue.">
+                    Certified
+                </md-switch>
+                <md-input-container class="no-messaging">
+                    <label>Certificate</label>
+                    <input ng-model="getStampOwnership().certImg" ng-disabled="!getStampOwnership().cert"/>
+                </md-input-container>
+            </div>
+            <div class="form-field">
+                <md-input-container class="no-messaging">
+                    <label>Notes</label>
+                    <textarea ng-model="getStampOwnership().notes" rows="2"></textarea>
+                </md-input-container>
+            </div>
+        </fieldset>
+    </md-whiteframe>
+
+</md-content>

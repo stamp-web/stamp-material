@@ -6,6 +6,7 @@ angular.module('stamp-web', [
     'restangular',
     'LocalStorageModule',
     'stampweb.services',
+    'stampweb.model.enumerated-helper',
     'components.utilities',
     'ng-scrolling-table',
     'views.home',
@@ -15,6 +16,7 @@ angular.module('stamp-web', [
     'views.application',
     'ngMaterial',
     'ngMessages',
+    'ngAnimate',
     'myApp.version'
 ]).
     config(function($locationProvider, $routeProvider) {

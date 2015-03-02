@@ -1,14 +1,16 @@
 <md-sidenav class="md-sidenav-left menu-navigation" md-component-id="left-nav">
     <div ng-controller="HeaderCtrl" class="nav-menu">
+        <legend>Lists</legend>
         <div ng-click="goto('country-list')" class="nav-menu-item">
-            <md-button class="md-fab" aria-label="Menu" >
-                <img ng-src="resources/images/menu-icon-24x24.png"/>
-            </md-button> Countries
+                <img ng-src="resources/images/country-icon-24x24.png"/>Countries
         </div>
+        <div ng-click="goto('stamp-list')" class="nav-menu-item">
+            <img ng-src="resources/images/stamp-icon-24x24.png"/>Stamps
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+        <legend>Forms</legend>
         <div ng-click="goto('search')" class="nav-menu-item">
-            <md-button class="md-fab" aria-label="Menu" >
-                <img ng-src="resources/images/search-icon-24x24.png"/>
-            </md-button> Search
+            <img ng-src="resources/images/search-icon-24x24.png"/> Search
         </div>
     </div>
 

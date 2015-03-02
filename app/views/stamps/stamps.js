@@ -21,7 +21,7 @@
         $scope.sellers = [];
 
         var loadCount = 0;
-        var activeCn;
+        var activeCn, owner;
 
         $scope.model = {
             catalogueNumbers: [],
@@ -57,7 +57,12 @@
             });
         };
 
-
+        $scope.getStampOwnership = function() {
+            if( !owner ) {
+                owner = ( $scope.model.stampOwnerships && $scope.model.stampOwnerships.length > 0 ) ? $scope.model.stampOwnerships[0] : { };
+            }
+            return owner;
+        }
 
         $scope.getCatalogueNumber = function() {
             if( !activeCn) {
@@ -88,7 +93,6 @@
     module.controller('StampListCtrl', function($scope,$location,$timeout,Stamps) {
 
         $scope.stamps = [];
-
         $scope.$on("search-stamps", function(evt, criteria) {
             Stamps.query(criteria).then(function(results) {
                 $scope.stamps = results;

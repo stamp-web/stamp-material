@@ -1,3 +1,4 @@
-<div class="footer">
+<div ng-controller="FooterCtrl" class="footer md-toolbar" layout="column">
+    <md-progress-linear md-mode="indeterminate" ng-hide="!loading" class="server-activity"></md-progress-linear>
     <div>Angular seed app: v<span app-version></span></div>
 </div>

@@ -1,13 +1,13 @@
 <div class="stamp-editor">
     <form name="stampEditor">
         <md-content class="md-padding" layout-gt-md="row" layout="column" layout-align="center start">
-            <md-content layout-gt-sm="row" layout="column">
+            <md-content layout-sm="column" layout="row">
                 <md-whiteframe class="md-whiteframe-z1">
                     <fieldset>
                         <legend>Details</legend>
-                        <div class="form-field" flex>
+                        <div class="selector-wrapper" flex label-transform="">
                             <label class="select">Country</label>
-                            <md-select ng-model="model.countryRef">
+                            <md-select ng-model="model.countryRef" class="country-selector">
                                 <md-option ng-value="country.id" ng-repeat="country in countries">{{ ::country.name }}</md-option>
                             </md-select>
                         </div>
@@ -28,24 +28,31 @@
                 <md-whiteframe class="md-whiteframe-z1">
                     <fieldset>
                         <legend>Active Catalogue Number</legend>
-                        <div class="form-field" flex>
-                            <label>Catalogue</label>
-                            <md-select ng-model="getCatalogueNumber().catalogueRef">
+                        <div class="selector-wrapper" flex label-transform="">
+                            <label class="select">Catalogue</label>
+                            <md-select ng-model="getCatalogueNumber().catalogueRef" class="catalogue-selector">
                                 <md-option ng-value="catalogue.id" ng-repeat="catalogue in catalogues">{{ ::catalogue.name }}</md-option>
                             </md-select>
                         </div>
                         <div class="form-field">
+                            <condition-selector ng-model="getCatalogueNumber().condition"></condition-selector>
+                        </div>
+                        <div class="form-field">
                             <md-input-container>
                                 <label>Number</label>
-                                <input class="md-input" ng-model="getCatalogueNumber().number" required />
+                                <input class="md-input number" ng-model="getCatalogueNumber().number" required />
                             </md-input-container>
                         </div>
                         <div class="form-field" layout="row">
                             <md-input-container >
                                 <label>Value</label>
-                                <input ng-disabled="model.unknown" class="md-input" ng-model="getCatalogueNumber().value" />
+                                <input type="number" name="catalogueValue" ng-disabled="model.unknown" class="md-input"
+                                       ng-model="getCatalogueNumber().value" pattern="^\d+(?:\.\d{0,2})?$"/>
+                                <div ng-messages="stampEditor.catalogueValue.$error" class="messages">
+                                    <div ng-message="number">Not a number.</div>
+                                </div>
                             </md-input-container>
-                            <span ng-if="code">({{code}})</span>
+                            <span ng-if="code" class="currency-label">({{code}})</span>
                         </div>
                         <div class="form-field" layout="column">
                             <md-switch ng-model="model.unknown" aria-label="No value is listed in catalogue.">
