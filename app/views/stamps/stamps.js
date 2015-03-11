@@ -1,4 +1,6 @@
-(function(angular) {
+(function(angular, _) {
+
+    "use strict";
 
     var module = angular.module("views.stamps", ["ngRoute", "stampweb.services"]);
 
@@ -14,7 +16,7 @@
         });
     }])
 
-    module.controller("StampEditCtrl", function($scope, Countries, Albums, Catalogues, Sellers) {
+    module.controller("StampEditCtrl", function($scope, $timeout, Countries, Albums, Catalogues, Preferences, Sellers, Stamps) {
         $scope.countries = [];
         $scope.catalogues = [];
         $scope.albums = [];
@@ -24,8 +26,22 @@
         var activeCn, owner;
 
         $scope.model = {
+            id: 0,
             catalogueNumbers: [],
-            wantList: true
+            wantList: false
+        };
+
+        $scope.save = function() {
+            if( $scope.model.id > 0 ) {
+                Stamps.update($scope.model);
+            } else {
+                var result = Stamps.create($scope.model);
+                console.log(result);
+            }
+        };
+
+        $scope.cancel = function() {
+
         };
 
         var load = function(Svc, collection) {
@@ -33,7 +49,6 @@
                 $orderby: 'name'
             }).then(function(data) {
                 $scope[collection] = data;
-              //  $scope.$emit("querysearch-loadCount", ++loadCount);
             });
         };
 
@@ -42,6 +57,58 @@
             load(Albums,'albums');
             load(Catalogues,'catalogues');
             load(Sellers,'sellers');
+        };
+
+        var setDefaults = function () {
+            if( !$scope.model.id || $scope.model.id <= 0 ) {
+                Preferences.query().then(function (prefs) {
+                    var prefMap = [ {
+                        keys: [ 'countryRef']
+                    }, {
+                        keys: [ 'catalogueRef', 'condition' ]
+                    }];
+                    if( $scope.model.wantList === false ) {
+                        prefMap.push({
+                            keys: [ 'albumRef', 'sellerRef', 'grade', 'condition']
+                        });
+                    }
+                    _.each( prefMap, function(el, index) {
+                        var model;
+                        switch (index) {
+                            case 0:
+                                model = $scope.model;
+                                break;
+                            case 1:
+                                model = $scope.getCatalogueNumber();
+                                break;
+                            case 2:
+                                model = $scope.getStampOwnership();
+                                break;
+                        }
+                        $timeout(function() {
+                            _.each(el.keys, function( elm ) {
+                                var p = _.findWhere(prefs, { name: elm});
+                                model[elm] = (p) ? +p.value: -1;
+                            })
+                        },0);
+                    });
+                });
+            }
+        }
+
+
+        $scope.calculateImagePath = function () {
+            var num = $scope.getCatalogueNumber();
+            if ($scope.getStampOwnership() && +$scope.model.countryRef > 0 ) {
+                var country = Countries.findById(+$scope.model.countryRef);
+                var path = ((country !== null) ? country.name + '/' : '') +
+                    ((typeof num.number !== 'undefined' && num.number !== '') ? (num.number + '.jpg') : '');
+                $scope.getStampOwnership().img = path;
+            }
+        };
+
+        var configureWatches = function() {
+
         };
 
         var numWatchFn = function (exp) {
@@ -59,7 +126,12 @@
 
         $scope.getStampOwnership = function() {
             if( !owner ) {
-                owner = ( $scope.model.stampOwnerships && $scope.model.stampOwnerships.length > 0 ) ? $scope.model.stampOwnerships[0] : { };
+                if($scope.model.stampOwnerships && $scope.model.stampOwnerships.length > 0 ) {
+                    owner = $scope.model.stampOwnerships[0];
+                } else {
+                    $scope.model.stampOwnerships = [{}];
+                    owner = $scope.model.stampOwnerships[0];
+                }
             }
             return owner;
         }
@@ -87,7 +159,8 @@
         }
 
         initialize();
-
+        setDefaults();
+        configureWatches();
     });
 
     module.controller('StampListCtrl', function($scope,$location,$timeout,Stamps) {
@@ -104,4 +177,4 @@
 
     });
 
-})(angular);
+})(angular, _);

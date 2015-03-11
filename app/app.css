@@ -105,6 +105,10 @@ md-select-menu md-content {
     min-width: 136px;
 }
 
+.md-select-label {
+    font-size: 100%;
+}
+
 .stampform-editor md-input-container {
     overflow: hidden;
 }
@@ -155,7 +159,7 @@ md-whiteframe {
 }
 
 .currency-selector {
-    width: 65px;
+    width: 75px;
     padding-bottom: 26px;
     top: 25px;
     position: relative;
@@ -168,11 +172,11 @@ md-whiteframe {
 }
 
 .condition-selector {
-    width: 110px;
+    width: 130px;
 }
 
 .grade-selector {
-    width: 130px;
+    width: 160px;
 }
 
 .catalogue-selector, .country-selector, .album-selector, .stampCollection-selector, .seller-selector {
@@ -237,27 +241,24 @@ md-select .md-select-label span {
     height: 12px;
 }
 
+.md-select-label .md-select-icon {
+    position: absolute;
+    right: 0px;
+}
+
 md-select {
     margin-top: 5px;
 }
 
 .slide-animation.ng-enter  {
     z-index: 10;
-    -webkit-animation: .75s none;
-    animation: .75s none;
-}
-.slide-animation.ng-leave  {
-    -webkit-animation: .3s none;
-    animation: .3s none;
-}
-.slide-animation.ng-enter ,
-.slide-animation.ng-leave {
+    -webkit-animation: 1.0s none;
+    animation: 1.0s none;
     overflow: hidden;
     position: absolute;
 }
 
-.slide-animation.ng-enter  > *,
-.slide-animation.ng-leave  > * {
+.slide-animation.ng-enter  > * {
     transition: top .6s ease, opacity .2s linear;
     -webkit-transition: top .6s ease, opacity .2s linear;
     position:absolute;
@@ -266,21 +267,23 @@ md-select {
     right:0;
 }
 
-.slide-animation.ng-enter > *,
-.slide-animation.ng-leave.ng-leave-active  > * {
+.slide-animation.ng-leave  > * {
+    display: none;
     opacity: 0;
 }
-.slide-animation.ng-leave > *,
+
+.slide-animation.ng-enter > * {
+    opacity: 0;
+}
 .slide-animation.ng-enter.ng-enter-active > * {
     opacity: 1;
 }
 
-.slide-animation.ng-enter:last-child > *,
-.slide-animation.ng-leave.ng-leave-active:last-child > * {
+.slide-animation.ng-enter:last-child > * {
     top: -100%;
     opacity: 0;
 }
-.slide-animation.ng-leave:last-child > *,
+
 .slide-animation.ng-enter.ng-enter-active:last-child > * {
     top: 0;
     opacity: 1;

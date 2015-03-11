@@ -7,7 +7,7 @@
                         <legend>Details</legend>
                         <div class="selector-wrapper" flex label-transform="">
                             <label class="select">Country</label>
-                            <md-select ng-model="model.countryRef" class="country-selector">
+                            <md-select ng-model="model.countryRef" class="country-selector" ng-change="calculateImagePath()">
                                 <md-option ng-value="country.id" ng-repeat="country in countries">{{ ::country.name }}</md-option>
                             </md-select>
                         </div>
@@ -30,7 +30,7 @@
                         <legend>Active Catalogue Number</legend>
                         <div class="selector-wrapper" flex label-transform="">
                             <label class="select">Catalogue</label>
-                            <md-select ng-model="getCatalogueNumber().catalogueRef" class="catalogue-selector">
+                            <md-select ng-model="getCatalogueNumber().catalogueRef" class="catalogue-selector" ng-change="calculateImagePath()">
                                 <md-option ng-value="catalogue.id" ng-repeat="catalogue in catalogues">{{ ::catalogue.name }}</md-option>
                             </md-select>
                         </div>
@@ -40,7 +40,7 @@
                         <div class="form-field">
                             <md-input-container>
                                 <label>Number</label>
-                                <input class="md-input number" ng-model="getCatalogueNumber().number" required />
+                                <input class="md-input number" ng-model="getCatalogueNumber().number" required ng-change="calculateImagePath()" />
                             </md-input-container>
                         </div>
                         <div class="form-field" layout="row">
@@ -55,10 +55,10 @@
                             <span ng-if="code" class="currency-label">({{code}})</span>
                         </div>
                         <div class="form-field" layout="column">
-                            <md-switch ng-model="model.unknown" aria-label="No value is listed in catalogue.">
+                            <md-switch ng-model="getCatalogueNumber().unknown" aria-label="No value is listed in catalogue.">
                                 No value listed
                             </md-switch>
-                            <md-switch ng-model="model.nospace" aria-label="No album space is defined for this stamp.">
+                            <md-switch ng-model="getCatalogueNumber().nospace" aria-label="No album space is defined for this stamp.">
                                 No album space available.
                             </md-switch>
                         </div>
